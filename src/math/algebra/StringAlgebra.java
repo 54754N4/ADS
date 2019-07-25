@@ -1,8 +1,8 @@
 package math.algebra;
 
-import math.contract.FieldAlgebra;
+import math.contract.LatticeAlgebra;
 
-public class StringAlgebra implements FieldAlgebra<String> {
+public class StringAlgebra implements LatticeAlgebra<String> {
 
 	public static void main(String[] args) {
 		StringAlgebra a = new StringAlgebra();
@@ -39,12 +39,12 @@ public class StringAlgebra implements FieldAlgebra<String> {
 	}
 
 	@Override
-	public String multiply(String k, double lambda) {
+	public String multiply(String word, double lambda) {
 		String result = additiveIdentity();
-		for (int i=0; i<(int) lambda; i++) result += k;
+		for (int i=0; i<(int) lambda; i++) result += word;
 		// get percentage left to add
-		int chars = (int) ((lambda - (int) lambda)*k.length());	
-		for (int i=0; i<chars; i++) result += ""+k.charAt(i);
+		int chars = (int) ((lambda - (int) lambda)*word.length());	
+		for (int i=0; i<chars; i++) result += ""+word.charAt(i);
 		return result;
 	}
 
