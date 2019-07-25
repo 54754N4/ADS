@@ -6,17 +6,17 @@ public class BooleanAlgebra implements FieldAlgebra<Boolean> {
 
 	@Override
 	public Boolean additiveIdentity() {
-		return true;
-	}
-
-	@Override
-	public Boolean multiplicativeIdentity() {
 		return false;
 	}
 
 	@Override
+	public Boolean multiplicativeIdentity() {
+		return true;
+	}
+
+	@Override
 	public Boolean add(Boolean a, Boolean b) {
-		return a && b;
+		return a || b;
 	}
 
 	@Override
@@ -26,7 +26,7 @@ public class BooleanAlgebra implements FieldAlgebra<Boolean> {
 
 	@Override
 	public Boolean multiply(Boolean a, Boolean b) {
-		return a || b;
+		return a && b;
 	}
 
 	@Override

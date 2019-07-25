@@ -1,8 +1,10 @@
 package math.struct.generic;
 
+import java.util.Random;
+
+import math.algebra.AlphanumeralAlgebra;
 import math.algebra.BooleanAlgebra;
 import math.algebra.CharacterAlgebra;
-import math.algebra.AlphanumeralAlgebra;
 import math.algebra.ComplexAlgebra;
 import math.algebra.DoubleAlgebra;
 import math.algebra.FloatAlgebra;
@@ -40,14 +42,24 @@ public class Matrix<K> {
 //		m2.forEachApplySelfIndexed((i,j, elem) -> i+j);
 //		System.out.println(m2);
 //		
-		// Idk yet why anyone would wanna use this..
-//		Matrix<Boolean> m3 = Matrix.booleanIdentity(4);
-		Matrix<String> m4 = Matrix.stringIdentity(4);
-		m4.forEachVisitIndexed((i,j, elem) -> System.out.println(String.format("(%d,%d) -> %s", i,j,elem)));
+		// Idk yet why anyone would wanna use these..
+//		Matrix<Boolean> ibool = Matrix.booleanIdentity(4);
+//		System.out.println(ibool);
+//		System.out.println(ibool.times(ibool).equals(ibool));	// verify identity
+//		Matrix<Boolean> m3 = Matrix.ofBooleans(4, 4);
+//		m3.forEachApplySelf((bool) -> new Random().nextBoolean());	// random bool matrix
 //		System.out.println(m3);
-//		System.out.println(m3.times(m3).equals(m3));	// true now !!! huhu oops
-		System.out.println(m4);
-		System.out.println(m4.times(m4));	
+//		System.out.println(!m3.times(m3).equals(m3));
+//		System.out.println(m3.times(Matrix.booleanIdentity(4)).equals(m3));
+		
+//		Matrix<String> istring = Matrix.stringIdentity(4);
+//		System.out.println(istring);
+//		System.out.println(istring.times(istring).equals(istring));
+//		Matrix<String> m4 = Matrix.ofStrings(4, 4);
+//		m4.forEachApplySelfIndexed((i,j, elem) -> (i==j)?""+AlphanumeralAlgebra.get(i+j):"");
+//		System.out.println(m4);
+//		System.out.println(m4.times(Matrix.stringIdentity(4)));
+//		System.out.println(m4.times(Matrix.stringIdentity(4)).equals(m4));
 		
 		// Test char matrices
 		Matrix<Character> m5 = Matrix.characterIdentity(4);

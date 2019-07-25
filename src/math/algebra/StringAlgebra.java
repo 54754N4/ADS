@@ -7,6 +7,8 @@ public class StringAlgebra implements LatticeAlgebra<String> {
 	public static void main(String[] args) {
 		StringAlgebra a = new StringAlgebra();
 		System.out.println(a.inverse("abcd"));
+		System.out.println(a.multiply("abcd", ""));
+		System.out.println(a.multiply("abcd", "*"));
 	}
 	
 	@Override
@@ -16,7 +18,7 @@ public class StringAlgebra implements LatticeAlgebra<String> {
 
 	@Override
 	public String multiplicativeIdentity() {
-		return additiveIdentity();
+		return "*";
 	}
 
 	@Override
@@ -31,10 +33,13 @@ public class StringAlgebra implements LatticeAlgebra<String> {
 
 	@Override
 	public String multiply(String a, String b) {	// distributes multiplication
+		if (b.equals(multiplicativeIdentity())) return a;
+		else if (a.equals(multiplicativeIdentity())) return b;
+		// Otherwise concatenate every char from a to every char from b
 		String temp, result = temp = additiveIdentity();
 		for (int i=0; i<a.length(); i++, result += temp, temp = additiveIdentity())
-			for (int j=0; j<b.length(); j++) 
-				temp += (""+a.charAt(i))+(""+b.charAt(j));	// convert to string explicitly
+			for (int j=0; j<b.length(); j++)
+				temp += (""+a.charAt(i))+(""+b.charAt(j)); // convert to string explicitly
 		return result;
 	}
 

@@ -6,7 +6,7 @@ public class AlphanumeralAlgebra implements LatticeAlgebra<Character> {
 	private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>?/.,;:'\"\\|[]{}+=_-~`!@#$%^&*()";
 	private static final int TOTAL = ALPHABET.length();
 	
-	private static char get(int i) {
+	public static char get(int i) {
 		return ALPHABET.charAt(i%TOTAL);
 	}
 	
