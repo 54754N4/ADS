@@ -26,19 +26,19 @@ public class Matrix<K> {
 		m.forEachVisitIndexed((i,j, elem) -> System.out.println(String.format("(%d,%d) -> %s", i,j,elem)));
 		System.out.println(m.forEachApply((elem) -> elem.conjugate()));	// complex
 		System.out.println(m);
-	
+		
 		// Test matrices of doubles
 		Matrix<Double> m1 = Matrix.doubleIdentity(4);
 		System.out.println(m1.det());
 		System.out.println(m1.forEachApply((elem) -> -elem));	// doubles
 		System.out.println(m1);
-	
-	 	// Test ints
+		
+		// Test ints
 		Matrix<Integer> m2 = Matrix.ofIntegers(4, 4);
 		m2.forEachApplySelfIndexed((i,j, elem) -> i+j);
 		System.out.println(m2);
-	
-	 	// Idk yet why anyone would wanna use this..
+		
+		// Idk yet why anyone would wanna use this..
 		Matrix<Boolean> m3 = Matrix.booleanIdentity(4);
 		Matrix<String> m4 = Matrix.stringIdentity(4);
 		m3.forEachVisitIndexed((i,j, elem) -> System.out.println(String.format("(%d,%d) -> %s", i,j,elem)));
