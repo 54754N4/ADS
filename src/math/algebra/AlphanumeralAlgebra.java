@@ -22,6 +22,7 @@ public class AlphanumeralAlgebra implements LatticeAlgebra<Character> {
 
 	@Override
 	public Character add(Character a, Character b) {
+		// apply additive neutral element rules
 		if (a.equals(additiveIdentity())) return b;
 		else if (b.equals(additiveIdentity())) return a;
 		return get(a+b);
@@ -34,8 +35,10 @@ public class AlphanumeralAlgebra implements LatticeAlgebra<Character> {
 
 	@Override
 	public Character multiply(Character a, Character b) {
+		// additive law's neutral element becomes multiplicative's absorbant element 
 		if (a.equals(additiveIdentity())) return additiveIdentity();
 		else if (b.equals(additiveIdentity())) return additiveIdentity();
+		// apply multiplicative neutral element rules
 		else if (a.equals(multiplicativeIdentity())) return b;
 		else if (b.equals(multiplicativeIdentity())) return a;
 		return get(a*b);
