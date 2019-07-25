@@ -1,7 +1,5 @@
 package math.struct.generic;
 
-import java.util.Random;
-
 import math.algebra.AlphanumeralAlgebra;
 import math.algebra.BooleanAlgebra;
 import math.algebra.CharacterAlgebra;
@@ -260,84 +258,24 @@ public class Matrix<K> {
 	}
 	
 	// Identity matrices
-	public static <T> Matrix<T> identity(int degree, FieldAlgebra<T> algebra) {
-		Matrix<T> identity = new Matrix<>(degree, degree, algebra);
-		for (int i=0; i<degree; i++)
+	public static <T> Matrix<T> identity(int row, int col, FieldAlgebra<T> algebra) {
+		Matrix<T> identity = new Matrix<>(row, col, algebra);
+		int smaller = (row < col) ? row : col;
+		for (int i=0; i<smaller; i++)
 			identity.set(i, i, algebra.multiplicativeIdentity());
 		return identity;
 	}
 	
-	public static Matrix<Integer> intIdentity(int degree) {
-		return identity(degree, Algebra.forIntegers());
+	public static <T> Matrix<T> identity(int degree, FieldAlgebra<T> algebra) {
+		return identity(degree, degree, algebra);
 	}
 	
-	public static Matrix<Long> longIdentity(int degree) {
-		return identity(degree, Algebra.forLongs());
+	public static <T> Matrix<T> of(int row, int col, FieldAlgebra<T> algebra) {
+		return new Matrix<T>(row, col, algebra);
 	}
 	
-	public static Matrix<Float> floatIdentity(int degree) {
-		return identity(degree, Algebra.forFloats());
-	}
-	
-	public static Matrix<Double> doubleIdentity(int degree) {
-		return identity(degree, Algebra.forDoubles());
-	}
-	
-	public static Matrix<Complex> complexIdentity(int degree) {
-		return identity(degree, Algebra.forComplex());
-	}
-	
-	public static Matrix<Boolean> booleanIdentity(int degree) {
-		return identity(degree, Algebra.forBooleans());
-	}
-	
-	public static Matrix<Character> characterIdentity(int degree) {
-		return identity(degree, Algebra.forCharacters());
-	}
-	
-	public static Matrix<Character> alphanumeralIdentity(int degree) {
-		return identity(degree, Algebra.forAlphanumerals());
-	}
-	
-	public static Matrix<String> stringIdentity(int degree) {
-		return identity(degree, Algebra.forStrings());
-	}
-	
-	// Primitive types matrices constructors
-	public static Matrix<Integer> ofIntegers(int m, int n) {
-		return new Matrix<Integer>(m, n, Algebra.forIntegers());
-	}
-	
-	public static Matrix<Long> ofLongs(int m, int n) {
-		return new Matrix<Long>(m, n, Algebra.forLongs());
-	}
-	
-	public static Matrix<Float> ofFloats(int m, int n) {
-		return new Matrix<Float>(m, n, Algebra.forFloats());
-	}
-	
-	public static Matrix<Double> ofDoubles(int m, int n) {
-		return new Matrix<Double>(m, n, Algebra.forDoubles());
-	}
-	
-	public static Matrix<Complex> ofComplex(int m, int n) {
-		return new Matrix<Complex>(m, n, Algebra.forComplex());
-	}
-	
-	public static Matrix<Boolean> ofBooleans(int m, int n) {
-		return new Matrix<Boolean>(m, n, Algebra.forBooleans());
-	}
-	
-	public static Matrix<Character> ofCharacters(int m, int n) {
-		return new Matrix<Character>(m, n, Algebra.forCharacters());
-	}
-	
-	public static Matrix<Character> ofAlphanumerals(int m, int n) {
-		return new Matrix<Character>(m, n, Algebra.forAlphanumerals());
-	}
-	
-	public static Matrix<String> ofStrings(int m, int n) {
-		return new Matrix<String>(m, n, Algebra.forStrings());
+	public static <T> Matrix<T> of(int degree, FieldAlgebra<T> algebra) {
+		return of(degree, degree, algebra);
 	}
 	
 	// Test + Debug matrices
