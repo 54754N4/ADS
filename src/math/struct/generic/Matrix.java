@@ -43,7 +43,7 @@ public class Matrix<K> {
 		// Idk yet why anyone would wanna use this..
 //		Matrix<Boolean> m3 = Matrix.booleanIdentity(4);
 		Matrix<String> m4 = Matrix.stringIdentity(4);
-		m3.forEachVisitIndexed((i,j, elem) -> System.out.println(String.format("(%d,%d) -> %s", i,j,elem)));
+		m4.forEachVisitIndexed((i,j, elem) -> System.out.println(String.format("(%d,%d) -> %s", i,j,elem)));
 //		System.out.println(m3);
 //		System.out.println(m3.times(m3).equals(m3));	// true now !!! huhu oops
 		System.out.println(m4);
