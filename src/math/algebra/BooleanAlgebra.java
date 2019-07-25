@@ -6,12 +6,12 @@ public class BooleanAlgebra implements FieldAlgebra<Boolean> {
 
 	@Override
 	public Boolean additiveIdentity() {
-		return false;
+		return true;
 	}
 
 	@Override
 	public Boolean multiplicativeIdentity() {
-		return true;
+		return false;
 	}
 
 	@Override

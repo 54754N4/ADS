@@ -2,7 +2,7 @@ package math.algebra;
 
 import math.contract.LatticeAlgebra;
 
-public class CharAlphaAlgebra implements LatticeAlgebra<Character> {
+public class AlphanumeralAlgebra implements LatticeAlgebra<Character> {
 	private static final String ALPHABET = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789<>?/.,;:'\"\\|[]{}+=_-~`!@#$%^&*()";
 	private static final int TOTAL = ALPHABET.length();
 	

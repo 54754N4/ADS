@@ -1,6 +1,8 @@
 package math.struct.generic;
 
 import math.algebra.BooleanAlgebra;
+import math.algebra.CharacterAlgebra;
+import math.algebra.AlphanumeralAlgebra;
 import math.algebra.ComplexAlgebra;
 import math.algebra.DoubleAlgebra;
 import math.algebra.FloatAlgebra;
@@ -20,32 +22,46 @@ public class Matrix<K> {
 	private FieldAlgebra<K> algebra;
 	
 	public static void main(String[] args) throws MatricesNotMultipliableException, NotSquareMatrixException {
-		// Test complex matrices
-		Matrix<Complex> m = Matrix.getComplex();
-		System.out.println(m.det());
-		m.forEachVisitIndexed((i,j, elem) -> System.out.println(String.format("(%d,%d) -> %s", i,j,elem)));
-		System.out.println(m.forEachApply((elem) -> elem.conjugate()));	// complex
-		System.out.println(m);
-		
-		// Test matrices of doubles
-		Matrix<Double> m1 = Matrix.doubleIdentity(4);
-		System.out.println(m1.det());
-		System.out.println(m1.forEachApply((elem) -> -elem));	// doubles
-		System.out.println(m1);
-		
-		// Test ints
-		Matrix<Integer> m2 = Matrix.ofIntegers(4, 4);
-		m2.forEachApplySelfIndexed((i,j, elem) -> i+j);
-		System.out.println(m2);
-		
+//		// Test complex matrices
+//		Matrix<Complex> m = Matrix.getComplex();
+//		System.out.println(m.det());
+//		m.forEachVisitIndexed((i,j, elem) -> System.out.println(String.format("(%d,%d) -> %s", i,j,elem)));
+//		System.out.println(m.forEachApply((elem) -> elem.conjugate()));	// complex
+//		System.out.println(m);
+//		
+//		// Test matrices of doubles
+//		Matrix<Double> m1 = Matrix.doubleIdentity(4);
+//		System.out.println(m1.det());
+//		System.out.println(m1.forEachApply((elem) -> -elem));	// doubles
+//		System.out.println(m1);
+//		
+//		// Test ints
+//		Matrix<Integer> m2 = Matrix.ofIntegers(4, 4);
+//		m2.forEachApplySelfIndexed((i,j, elem) -> i+j);
+//		System.out.println(m2);
+//		
 		// Idk yet why anyone would wanna use this..
-		Matrix<Boolean> m3 = Matrix.booleanIdentity(4);
+//		Matrix<Boolean> m3 = Matrix.booleanIdentity(4);
 		Matrix<String> m4 = Matrix.stringIdentity(4);
 		m3.forEachVisitIndexed((i,j, elem) -> System.out.println(String.format("(%d,%d) -> %s", i,j,elem)));
-		System.out.println(m3);
-		System.out.println(m3.times(m3));
+//		System.out.println(m3);
+//		System.out.println(m3.times(m3).equals(m3));	// true now !!! huhu oops
 		System.out.println(m4);
 		System.out.println(m4.times(m4));	
+		
+		// Test char matrices
+		Matrix<Character> m5 = Matrix.characterIdentity(4);
+		m5.forEachVisitIndexed((i,j, elem) -> System.out.println(String.format("(%d,%d) -> %d", i,j,(int)elem)));
+		System.out.println(m5);
+		System.out.println(m5.times(m5));
+		System.out.println(m5.times(m5).equals(m5));	// true so identity is correct
+		
+		// Test char matrices
+		Matrix<Character> m6 = Matrix.alphanumeralIdentity(4);
+		m5.forEachVisitIndexed((i,j, elem) -> System.out.println(String.format("(%d,%d) -> %d", i,j,(int)elem)));
+		System.out.println(m6);
+		System.out.println(m6.times(m6));
+		System.out.println(m6.times(m6).equals(m6));	// true so identity is correct
 	}
 	
 	@SuppressWarnings("unchecked")	// since each algebra know exactly how to initialise the cells
@@ -220,6 +236,15 @@ public class Matrix<K> {
 		return minor;	
 	}
 	
+	public boolean equals(Matrix<K> matrix) {
+		boolean equal = true;
+		for (int i=0; i<rows; i++)
+			for (int j=0; j<cols; j++) 
+				if (!model[i][j].equals(matrix.model[i][j]))
+					equal = false;
+		return equal;
+	}
+	
 	//Representation
 	public String toString() {
 		String representation = "";
@@ -303,8 +328,16 @@ public class Matrix<K> {
 		return identity(degree, Algebra.forComplex());
 	}
 	
-	public static Matrix<Boolean> booleanIdentity(int degree) {
+	public static Matrix<Boolean> booleanIdentity(int degree) {	// BROKEN
 		return identity(degree, Algebra.forBooleans());
+	}
+	
+	public static Matrix<Character> characterIdentity(int degree) {
+		return identity(degree, Algebra.forCharacters());
+	}
+	
+	public static Matrix<Character> alphanumeralIdentity(int degree) {
+		return identity(degree, Algebra.forAlphanumerals());
 	}
 	
 	public static Matrix<String> stringIdentity(int degree) {
@@ -334,6 +367,14 @@ public class Matrix<K> {
 	
 	public static Matrix<Boolean> ofBooleans(int m, int n) {
 		return new Matrix<Boolean>(m, n, Algebra.forBooleans());
+	}
+	
+	public static Matrix<Character> ofCharacters(int m, int n) {
+		return new Matrix<Character>(m, n, Algebra.forCharacters());
+	}
+	
+	public static Matrix<Character> ofAlphanumerals(int m, int n) {
+		return new Matrix<Character>(m, n, Algebra.forAlphanumerals());
 	}
 	
 	public static Matrix<String> ofStrings(int m, int n) {
@@ -387,6 +428,14 @@ public class Matrix<K> {
 		//Trolling
 		public static BooleanAlgebra forBooleans() {
 			return new BooleanAlgebra();
+		}
+		
+		public static CharacterAlgebra forCharacters() {
+			return new CharacterAlgebra();
+		}
+		
+		public static AlphanumeralAlgebra forAlphanumerals() {
+			return new AlphanumeralAlgebra();
 		}
 		
 		public static StringAlgebra forStrings() {

@@ -2,7 +2,7 @@ package math.algebra;
 
 import math.contract.LatticeAlgebra;
 
-public class CharAlgebra implements LatticeAlgebra<Character> {
+public class CharacterAlgebra implements LatticeAlgebra<Character> {
 
 	@Override
 	public Character additiveIdentity() {
