@@ -1,10 +1,12 @@
 package math.struct.generic;
 
+import math.algebra.BooleanAlgebra;
 import math.algebra.ComplexAlgebra;
 import math.algebra.DoubleAlgebra;
 import math.algebra.FloatAlgebra;
 import math.algebra.IntegerAlgebra;
 import math.algebra.LongAlgebra;
+import math.algebra.StringAlgebra;
 import math.contract.FieldAlgebra;
 import math.lambda.ElementUpdateVisitor;
 import math.lambda.ElementVisitor;
@@ -16,6 +18,32 @@ public class Matrix<K> {
 	private int cols;
 	private K[][] model;
 	private FieldAlgebra<K> algebra;
+	
+	public static void main(String[] args) throws MatricesNotMultipliableException, NotSquareMatrixException {
+		{	// Anonymous block #1 - test complex matrices
+			Matrix<Complex> m = Matrix.getComplex();
+			System.out.println(m.det());
+			m.forEachVisitIndexed((i,j, elem) -> System.out.println(String.format("(%d,%d) -> %s", i,j,elem)));
+			System.out.println(m.forEachApply((elem) -> elem.conjugate()));	// complex
+			System.out.println(m);
+		}
+		{	// Test matrices of doubles
+			Matrix<Double> m = Matrix.doubleIdentity(4);
+			System.out.println(m.det());
+			System.out.println(m.forEachApply((elem) -> -elem));	// doubles
+			System.out.println(m);
+		}
+		{ 	// Test ints
+			Matrix<Integer> m = Matrix.ofIntegers(4, 4);
+			m.forEachApplySelfIndexed((i,j, elem) -> i+j);
+			System.out.println(m);
+		}
+		{ 	// Idk yet why anyone would wanna use this..
+			Matrix<Boolean> m = Matrix.ofBooleans(4, 4);
+			m.forEachVisitIndexed((i,j, elem) -> System.out.println(String.format("(%d,%d) -> %s", i,j,elem)));
+			System.out.println(m);
+		}		
+	}
 	
 	@SuppressWarnings("unchecked")	// since each algebra know exactly how to initialise the cells
 	public Matrix(int m, int n, FieldAlgebra<K> algebra) {
@@ -273,7 +301,7 @@ public class Matrix<K> {
 	}
 	
 	// Primitive types matrices constructors
-	public static Matrix<Integer> ofInts(int m, int n) {
+	public static Matrix<Integer> ofIntegers(int m, int n) {
 		return new Matrix<Integer>(m, n, Algebra.forIntegers());
 	}
 	
@@ -293,6 +321,14 @@ public class Matrix<K> {
 		return new Matrix<Complex>(m, n, Algebra.forComplex());
 	}
 	
+	public static Matrix<Boolean> ofBooleans(int m, int n) {
+		return new Matrix<Boolean>(m, n, Algebra.forBooleans());
+	}
+	
+	public static Matrix<String> ofStrings(int m, int n) {
+		return new Matrix<String>(m, n, Algebra.forStrings());
+	}
+	
 	// Test + Debug matrices
 	public static Matrix<Double> getDoubles() {
 		return new Matrix<Double>(
@@ -310,15 +346,6 @@ public class Matrix<K> {
 				{ new Complex(4,4), new Complex(5,5), new Complex(6,6) },
 				{ new Complex(7,7), new Complex(8,8), new Complex(9,9) }
 			}, Algebra.forComplex());
-	}
-
-	public static void main(String[] args) throws MatricesNotMultipliableException, NotSquareMatrixException {
-		Matrix<Complex> m = Matrix.getComplex();
-		// Verification Purposes : det(m) = 0 and if u replace first complex 1+i to 1 det(m) = -6
-		System.out.println(m.det());
-		m.forEachVisitIndexed((i,j, elem) -> System.out.println(String.format("(%d,%d) -> %s", i,j,elem)));
-		System.out.println(m.forEachApply((elem) -> elem.conjugate()));
-		System.out.println(m);
 	}
 	
 	/**
@@ -344,6 +371,15 @@ public class Matrix<K> {
 		
 		public static ComplexAlgebra forComplex() {
 			return new ComplexAlgebra();
+		}
+
+		//Trolling
+		public static BooleanAlgebra forBooleans() {
+			return new BooleanAlgebra();
+		}
+		
+		public static StringAlgebra forStrings() {
+			return new StringAlgebra();
 		}
 	}
 	
