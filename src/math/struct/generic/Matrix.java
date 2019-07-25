@@ -20,29 +20,32 @@ public class Matrix<K> {
 	private FieldAlgebra<K> algebra;
 	
 	public static void main(String[] args) throws MatricesNotMultipliableException, NotSquareMatrixException {
-		{	// Anonymous block #1 - test complex matrices
-			Matrix<Complex> m = Matrix.getComplex();
-			System.out.println(m.det());
-			m.forEachVisitIndexed((i,j, elem) -> System.out.println(String.format("(%d,%d) -> %s", i,j,elem)));
-			System.out.println(m.forEachApply((elem) -> elem.conjugate()));	// complex
-			System.out.println(m);
-		}
-		{	// Test matrices of doubles
-			Matrix<Double> m = Matrix.doubleIdentity(4);
-			System.out.println(m.det());
-			System.out.println(m.forEachApply((elem) -> -elem));	// doubles
-			System.out.println(m);
-		}
-		{ 	// Test ints
-			Matrix<Integer> m = Matrix.ofIntegers(4, 4);
-			m.forEachApplySelfIndexed((i,j, elem) -> i+j);
-			System.out.println(m);
-		}
-		{ 	// Idk yet why anyone would wanna use this..
-			Matrix<Boolean> m = Matrix.ofBooleans(4, 4);
-			m.forEachVisitIndexed((i,j, elem) -> System.out.println(String.format("(%d,%d) -> %s", i,j,elem)));
-			System.out.println(m);
-		}		
+		// Test complex matrices
+		Matrix<Complex> m = Matrix.getComplex();
+		System.out.println(m.det());
+		m.forEachVisitIndexed((i,j, elem) -> System.out.println(String.format("(%d,%d) -> %s", i,j,elem)));
+		System.out.println(m.forEachApply((elem) -> elem.conjugate()));	// complex
+		System.out.println(m);
+	
+		// Test matrices of doubles
+		Matrix<Double> m1 = Matrix.doubleIdentity(4);
+		System.out.println(m1.det());
+		System.out.println(m1.forEachApply((elem) -> -elem));	// doubles
+		System.out.println(m1);
+	
+	 	// Test ints
+		Matrix<Integer> m2 = Matrix.ofIntegers(4, 4);
+		m2.forEachApplySelfIndexed((i,j, elem) -> i+j);
+		System.out.println(m2);
+	
+	 	// Idk yet why anyone would wanna use this..
+		Matrix<Boolean> m3 = Matrix.booleanIdentity(4);
+		Matrix<String> m4 = Matrix.stringIdentity(4);
+		m3.forEachVisitIndexed((i,j, elem) -> System.out.println(String.format("(%d,%d) -> %s", i,j,elem)));
+		System.out.println(m3);
+		System.out.println(m3.times(m3));
+		System.out.println(m4);
+		System.out.println(m4.times(m4));	
 	}
 	
 	@SuppressWarnings("unchecked")	// since each algebra know exactly how to initialise the cells
@@ -298,6 +301,14 @@ public class Matrix<K> {
 	
 	public static Matrix<Complex> complexIdentity(int degree) {
 		return identity(degree, Algebra.forComplex());
+	}
+	
+	public static Matrix<Boolean> booleanIdentity(int degree) {
+		return identity(degree, Algebra.forBooleans());
+	}
+	
+	public static Matrix<String> stringIdentity(int degree) {
+		return identity(degree, Algebra.forStrings());
 	}
 	
 	// Primitive types matrices constructors
