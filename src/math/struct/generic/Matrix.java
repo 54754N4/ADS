@@ -202,6 +202,26 @@ public class Matrix<K> {
 		return equal;
 	}
 	
+	public static <T> Matrix<T> identity(int row, int col, FieldAlgebra<T> algebra) {
+		Matrix<T> identity = new Matrix<>(row, col, algebra);
+		int smaller = (row < col) ? row : col;
+		for (int i=0; i<smaller; i++)
+			identity.set(i, i, algebra.multiplicativeIdentity());
+		return identity;
+	}
+	
+	public static <T> Matrix<T> identity(int degree, FieldAlgebra<T> algebra) {
+		return identity(degree, degree, algebra);
+	}
+	
+	public static <T> Matrix<T> of(int row, int col, FieldAlgebra<T> algebra) {
+		return new Matrix<T>(row, col, algebra);
+	}
+	
+	public static <T> Matrix<T> of(int degree, FieldAlgebra<T> algebra) {
+		return of(degree, degree, algebra);
+	}
+	
 	//Representation
 	public String toString() {
 		String representation = "";
@@ -255,27 +275,6 @@ public class Matrix<K> {
 			for (int j=0; j<cols; j++) 
 				model[i][j] = action.visit(i, j, model[i][j]);
 		return this;
-	}
-	
-	// Identity matrices
-	public static <T> Matrix<T> identity(int row, int col, FieldAlgebra<T> algebra) {
-		Matrix<T> identity = new Matrix<>(row, col, algebra);
-		int smaller = (row < col) ? row : col;
-		for (int i=0; i<smaller; i++)
-			identity.set(i, i, algebra.multiplicativeIdentity());
-		return identity;
-	}
-	
-	public static <T> Matrix<T> identity(int degree, FieldAlgebra<T> algebra) {
-		return identity(degree, degree, algebra);
-	}
-	
-	public static <T> Matrix<T> of(int row, int col, FieldAlgebra<T> algebra) {
-		return new Matrix<T>(row, col, algebra);
-	}
-	
-	public static <T> Matrix<T> of(int degree, FieldAlgebra<T> algebra) {
-		return of(degree, degree, algebra);
 	}
 	
 	// Test + Debug matrices
