@@ -3,11 +3,14 @@ package math.struct.generic;
 import math.algebra.AlphanumeralAlgebra;
 import math.algebra.BooleanAlgebra;
 import math.algebra.CharacterAlgebra;
+import math.algebra.CollectionAlgebra;
 import math.algebra.ComplexAlgebra;
 import math.algebra.DoubleAlgebra;
 import math.algebra.FloatAlgebra;
 import math.algebra.IntegerAlgebra;
+import math.algebra.ListAlgebra;
 import math.algebra.LongAlgebra;
+import math.algebra.MatrixAlgebra;
 import math.algebra.StringAlgebra;
 import math.contract.FieldAlgebra;
 import math.lambda.ElementUpdateVisitor;
@@ -101,13 +104,13 @@ public class Matrix<K> {
 	}
 	
 	public Matrix<K> opposite() {
-		return this.times(-1);						
+		return times(-1);						
 	}
 	
 	public Matrix<K> minus(Matrix<K> matrix) throws MatricesNotSameSizeException {
 		if (notSameSize(this,matrix))
 			throw new MatricesNotSameSizeException();
-		return this.plus(matrix.opposite());
+		return plus(matrix.opposite());
 	}
 	
 	public Matrix<K> times(Matrix<K> matrix) throws MatricesNotMultipliableException {
@@ -354,6 +357,19 @@ public class Matrix<K> {
 		
 		public static StringAlgebra forStrings() {
 			return new StringAlgebra();
+		}
+		
+		// More trolling
+		public static <K> CollectionAlgebra<K> forCollections() {
+			return new CollectionAlgebra<>();
+		}
+		
+		public static <K> ListAlgebra<K> forLists(FieldAlgebra<K> algebra) {
+			return new ListAlgebra<>(algebra);
+		}
+		
+		public static <K> MatrixAlgebra<K> forMatrices(int m, int n, FieldAlgebra<K> algebra) {
+			return new MatrixAlgebra<>(m, n, algebra);
 		}
 	}
 	

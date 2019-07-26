@@ -1,6 +1,8 @@
 package math.struct.generic;
 
-import java.util.Random;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 
 import math.struct.generic.Matrix.Algebra;
 import math.struct.generic.Matrix.MatricesNotMultipliableException;
@@ -68,17 +70,37 @@ public class TestMatrix {
 //		System.out.println(m6.times(aidentity));
 //		System.out.println(m6.times(aidentity).equals(m6));
 //		
-		// Inverses
-		Matrix<Double> iid = Matrix.identity(3, Algebra.forDoubles()),
-			m7 = Matrix.of(3, Algebra.forDoubles());
-		m7.forEachApplySelf((e) -> new Random().nextDouble());
-		System.out.println(iid);
-		System.out.println(m7.det());
-		System.out.println(m7);
-		System.out.println(m7.cofactor());
-		System.out.println(m7.adjugate());
-		System.out.println(m7.times(m7.adjugate()));
-		System.out.println(m7.times(m7.adjugate()).equals(iid.times(m7.det())));
-		System.out.println(m7.times(m7.inverse()));
+//		// Inverses
+//		Matrix<Double> iid = Matrix.identity(3, Algebra.forDoubles()),
+//			m7 = Matrix.of(3, Algebra.forDoubles());
+//		m7.forEachApplySelf((e) -> new Random().nextDouble());
+//		System.out.println(iid);
+//		System.out.println(m7.det());
+//		System.out.println(m7);
+//		System.out.println(m7.cofactor());
+//		System.out.println(m7.adjugate());
+//		System.out.println(m7.times(m7.adjugate()));
+//		System.out.println(m7.times(m7.adjugate()).equals(iid.times(m7.det())));
+//		System.out.println(m7.times(m7.inverse()));
+		
+		// Matrix of collections (concatenates instead of component arithemtic)
+		Matrix<Collection<Integer>> cmatrix = Matrix.of(3, Algebra.forCollections()), 
+				cid = Matrix.identity(3, Algebra.forCollections());
+		cmatrix.forEachApplySelfIndexed((i, j, e) -> Arrays.asList(i, j));
+		System.out.println(cmatrix);
+		System.out.println(cmatrix.plus(cmatrix).equals(cmatrix.times(2)));
+		System.out.println(cmatrix.times(cid));
+		System.out.println(cmatrix.times(cid).equals(cmatrix));
+		
+		// Matrix of lists
+		Matrix<List<Integer>> lmatrix = Matrix.of(3, Algebra.forLists(Algebra.forIntegers()));
+		lmatrix.forEachApplySelfIndexed((i, j, e) -> Arrays.asList(i, j));
+		System.out.println(lmatrix);
+		System.out.println(lmatrix.plus(lmatrix));
+		System.out.println(lmatrix.times(2));
+//		// Matrix of Matrices so troll
+//		Matrix<Matrix<Double>> matrix = Matrix.of(3, Algebra.forMatrices(1, 1, Algebra.forDoubles()));
+//		System.out.println(matrix);
+//		System.out.println(matrix.times(matrix));
 	}
 }
