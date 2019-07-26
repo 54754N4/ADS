@@ -10,7 +10,7 @@ import math.contract.FieldAlgebra;
 public class ListAlgebra<K> implements FieldAlgebra<List<K>> {
 	private final FieldAlgebra<K> algebra;	// for elements
 	
-	public static void main(String[] args) {
+	public static void main(String[] args) throws Exception {
 		ListAlgebra<Double> la = new ListAlgebra<>(new DoubleAlgebra());
 //		System.out.println(la.add(Arrays.asList(0d, 1d), Arrays.asList(1d, 2d, 2d, 3d)));
 		System.out.println(la.substract(Arrays.asList(0d, 1d), Arrays.asList(1d, 2d, 2d, 3d)));

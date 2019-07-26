@@ -70,7 +70,7 @@ public class ComplexMatrix {
 		return new ComplexMatrix(result);
 	}
 	
-	public ComplexMatrix times(int lambda) {
+	public ComplexMatrix times(double lambda) {
 		Complex[][] result = this.model;
 		for (int i=0; i<rows; i++) 
 			for (int j=0; j<cols; j++) 

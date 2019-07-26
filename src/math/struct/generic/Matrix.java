@@ -73,6 +73,10 @@ public class Matrix<K> {
 	}
 	
 	//Conditions used a lot
+	public boolean isSquare() {
+		return rows == cols;
+	} 
+	
 	private static boolean notSameSize(Matrix<?> a, Matrix<?> b) {
 		return a.rows!=b.rows && a.cols!=b.cols;
 	}
@@ -85,19 +89,15 @@ public class Matrix<K> {
 	public Matrix<K> plus(Matrix<K> matrix) throws MatricesNotSameSizeException {
 		if (notSameSize(this,matrix))
 			throw new MatricesNotSameSizeException();
-		Matrix<K> result = new Matrix<>(matrix.rows, matrix.cols, algebra);
-		for (int i=0; i<matrix.rows; i++) 
-			for (int j=0; j<matrix.cols; j++) 
-				result.set(i, j, algebra.add(model[i][j], matrix.model[i][j]));
-		return result;
+		return forEachApplyIndexed((i, j, e) -> algebra.add(e, matrix.model[i][j]));
 	}
 	
-	public Matrix<K> times(int lambda) {
-		Matrix<K> result = new Matrix<>(rows, cols, algebra);
-		for (int i=0; i<rows; i++) 
-			for (int j=0; j<cols; j++) 
-				result.set(i, j, algebra.multiply(model[i][j], lambda));
-		return result;
+	public Matrix<K> times(K lambda) {
+		return forEachApplyIndexed((i,j,e) -> algebra.multiply(e, lambda));
+	}
+	
+	public Matrix<K> times(double lambda) {
+		return forEachApplyIndexed((i,j,e) -> algebra.multiply(e, lambda));
 	}
 	
 	public Matrix<K> opposite() {
@@ -128,20 +128,16 @@ public class Matrix<K> {
 	public Matrix<K> timesHadamard(Matrix<K> matrix) throws MatricesNotSameSizeException {
 		if (notSameSize(this, matrix))
 			throw new MatricesNotSameSizeException();
-		Matrix<K> result = new Matrix<>(rows, cols, algebra);
-		for (int i=0; i<rows; i++)
-			for (int j=0; j<cols; j++)
-				result.set(i, j, algebra.multiply(model[i][j], matrix.model[i][j]));
-		return result;
+		return forEachApplyIndexed((i, j, e) -> algebra.multiply(e, matrix.model[i][j]));
 	}
 	
 	public Matrix<K> timesSchur(Matrix<K> matrix) throws MatricesNotSameSizeException {
 		return timesHadamard(matrix);
 	}
 	
-	public K trace() throws NotSquareMatrixException {
+	public K trace() throws MatrixNotSquareException {
 		if (rows!=cols) 
-			throw new NotSquareMatrixException();
+			throw new MatrixNotSquareException();
 		K trace = algebra.additiveIdentity();
 		for (int i=0; i<rows; i++)
 			trace = algebra.add(trace, model[i][i]);
@@ -149,11 +145,7 @@ public class Matrix<K> {
 	}
 	
 	public Matrix<K> transpose() {
-		Matrix<K> result = new Matrix<>(rows, cols, algebra);
-		for (int i=0; i<rows; i++)
-			for (int j=0; j<cols; j++)
-				result.set(j, i, model[i][j]);
-		return result;
+		return forEachApplyIndexed((i,j,e) -> model[j][i]);
 	}
 	
 	/**
@@ -163,10 +155,10 @@ public class Matrix<K> {
 	 * Hypothesis: matrix is a Square Matrix.
 	 * @param matrix
 	 * @return complex determinant
-	 * @throws NotSquareMatrixException 
+	 * @throws MatrixNotSquareException 
 	 */
-	public K det() throws NotSquareMatrixException {
-		if (rows!=cols) throw new NotSquareMatrixException();
+	public K det() throws MatrixNotSquareException {
+		if (!isSquare()) throw new MatrixNotSquareException();
 		else if (rows==2) {	//if square matrix size 2
 			K a = model[0][0], b = model[0][1],
 			  c = model[1][0], d = model[1][1];
@@ -191,6 +183,32 @@ public class Matrix<K> {
 				if (!(i==row || j==column))
 					minor.model[(i>row) ? i-1 : i][(j>column) ? j-1 : j] = model[i][j];
 		return minor;	
+	}
+	
+	@SuppressWarnings("unchecked")
+	public Matrix<K> cofactor() {
+		if (!isSquare()) 
+			throw new MatrixNotSquareException();
+		else if (rows == 1) 
+			return (equals(identity(rows, algebra))) ? 
+					identity(rows, algebra) : new Matrix<K>(1,1,algebra); 
+		else if (rows == 2) 
+			return new Matrix<K>((K[][]) new Object[][]{
+				{model[1][1], algebra.opposite(model[1][0])},
+				{algebra.opposite(model[0][1]), model[0][0]},
+			}, algebra);
+		return forEachApplyIndexed((i,j,c) -> algebra.multiply(minor(i,j).det(), Math.pow(-1, i+j)));
+	}
+	
+	public Matrix<K> adjugate() {
+		return cofactor().transpose();
+	}
+	
+	public Matrix<K> inverse() {
+		K det = det();
+		if (det.equals(algebra.additiveIdentity())) 
+			throw new MatrixNullDeterminantException();
+		return adjugate().times(algebra.inverse(det()));
 	}
 	
 	public boolean equals(Matrix<K> matrix) {
@@ -340,15 +358,23 @@ public class Matrix<K> {
 	}
 	
 	// Matrix related exceptions
-	public static class NotSquareMatrixException extends Exception {
+	public static class MatrixNullDeterminantException extends RuntimeException {
 		private static final long serialVersionUID = -7200675495130696696L;
 
-		public NotSquareMatrixException() {
+		public MatrixNullDeterminantException() {
+			super("Matrix M has det(M) = 0");
+		}
+	}
+	
+	public static class MatrixNotSquareException extends RuntimeException {
+		private static final long serialVersionUID = -7200675495130696696L;
+
+		public MatrixNotSquareException() {
 			super("Matrix is not square.");
 		}
 	}
 	
-	public static class MatricesNotMultipliableException extends Exception {
+	public static class MatricesNotMultipliableException extends RuntimeException {
 		private static final long serialVersionUID = -1770879902979636021L;
 
 		public MatricesNotMultipliableException() {
@@ -360,7 +386,7 @@ public class Matrix<K> {
 		}
 	}
 	
-	public static class MatricesNotSameSizeException extends Exception {
+	public static class MatricesNotSameSizeException extends RuntimeException {
 		private static final long serialVersionUID = 8981285656443861687L;
 
 		public MatricesNotSameSizeException() {

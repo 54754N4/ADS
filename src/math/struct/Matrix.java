@@ -70,7 +70,7 @@ public class Matrix {
 		return new Matrix(result);
 	}
 	
-	public Matrix times(int lambda) {
+	public Matrix times(double lambda) {
 		double[][] result = this.model;
 		for (int i=0; i<rows; i++) 
 			for (int j=0; j<cols; j++) 

@@ -25,48 +25,42 @@ public class MatrixAlgebra<K> implements FieldAlgebra<Matrix<K>> {
 	
 	@Override
 	public Matrix<K> additiveIdentity() {
-		return Matrix.identity(rows, algebra);
+		return Matrix.of(rows, cols, algebra);
 	}
 
 	@Override
 	public Matrix<K> multiplicativeIdentity() {
-		return Matrix.identity(rows, algebra);
+		return Matrix.identity(rows, cols, algebra);
 	}
 
 	@Override
 	public Matrix<K> add(Matrix<K> a, Matrix<K> b) {
-		// TODO Auto-generated method stub
-		return null;
+		return a.plus(b);
 	}
 
 	@Override
 	public Matrix<K> substract(Matrix<K> a, Matrix<K> b) {
-		// TODO Auto-generated method stub
-		return null;
+		return a.minus(b);
 	}
 
 	@Override
 	public Matrix<K> multiply(Matrix<K> a, Matrix<K> b) {
-		// TODO Auto-generated method stub
-		return null;
+		return a.times(b);
 	}
 
 	@Override
 	public Matrix<K> multiply(Matrix<K> k, double lambda) {
-		// TODO Auto-generated method stub
-		return null;
+		return k.times(lambda);
 	}
 
 	@Override
 	public Matrix<K> inverse(Matrix<K> k) {
-		// TODO Auto-generated method stub
-		return null;
+		return k.inverse();
 	}
 
 	@Override
 	public Matrix<K> divide(Matrix<K> a, Matrix<K> b) {
-		// TODO Auto-generated method stub
-		return null;
+		return a.times(b.inverse());
 	}
 
 }
