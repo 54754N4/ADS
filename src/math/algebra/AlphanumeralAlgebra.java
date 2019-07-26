@@ -54,9 +54,4 @@ public class AlphanumeralAlgebra implements LatticeAlgebra<Character> {
 		return get(TOTAL-k%TOTAL);
 	}
 
-	@Override
-	public Character divide(Character a, Character b) {
-		return multiply(a, inverse(b));
-	}
-
 }

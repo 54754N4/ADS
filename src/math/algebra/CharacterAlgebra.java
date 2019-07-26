@@ -39,9 +39,4 @@ public class CharacterAlgebra implements LatticeAlgebra<Character> {
 		return (char) (255-k);
 	}
 
-	@Override
-	public Character divide(Character a, Character b) {
-		return multiply(a, inverse(b));
-	}
-
 }

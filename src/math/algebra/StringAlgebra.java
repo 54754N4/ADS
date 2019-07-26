@@ -59,10 +59,5 @@ public class StringAlgebra implements LatticeAlgebra<String> {
 		for (int i=k.length()-1; i >= 0; i--) result += ""+k.charAt(i); 
 		return result;
 	}
-	
-	@Override
-	public String divide(String a, String b) {
-		return multiply(a, inverse(b));
-	}
 
 }

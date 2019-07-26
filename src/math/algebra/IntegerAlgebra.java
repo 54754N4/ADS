@@ -20,11 +20,6 @@ public class IntegerAlgebra implements LatticeAlgebra<Integer> {
 	}
 
 	@Override
-	public Integer substract(Integer a, Integer b) {
-		return a-b;
-	}
-
-	@Override
 	public Integer multiply(Integer a, Integer b) {
 		return a*b;
 	}
@@ -37,11 +32,6 @@ public class IntegerAlgebra implements LatticeAlgebra<Integer> {
 	@Override
 	public Integer inverse(Integer k) {
 		return 1/k;
-	}
-
-	@Override
-	public Integer divide(Integer a, Integer b) {
-		return a/b;
 	}
 	
 }

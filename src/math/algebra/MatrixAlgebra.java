@@ -39,11 +39,6 @@ public class MatrixAlgebra<K> implements FieldAlgebra<Matrix<K>> {
 	}
 
 	@Override
-	public Matrix<K> substract(Matrix<K> a, Matrix<K> b) {
-		return a.minus(b);
-	}
-
-	@Override
 	public Matrix<K> multiply(Matrix<K> a, Matrix<K> b) {
 		return a.times(b);
 	}
@@ -56,11 +51,6 @@ public class MatrixAlgebra<K> implements FieldAlgebra<Matrix<K>> {
 	@Override
 	public Matrix<K> inverse(Matrix<K> k) {
 		return k.inverse();
-	}
-
-	@Override
-	public Matrix<K> divide(Matrix<K> a, Matrix<K> b) {
-		return a.times(b.inverse());
 	}
 
 }

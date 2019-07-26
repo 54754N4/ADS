@@ -20,11 +20,6 @@ public class FloatAlgebra implements LatticeAlgebra<Float> {
 	}
 
 	@Override
-	public Float substract(Float a, Float b) {
-		return a-b;
-	}
-
-	@Override
 	public Float multiply(Float a, Float b) {
 		return a*b;
 	}
@@ -37,11 +32,6 @@ public class FloatAlgebra implements LatticeAlgebra<Float> {
 	@Override
 	public Float inverse(Float k) {
 		return 1/k;
-	}
-
-	@Override
-	public Float divide(Float a, Float b) {
-		return a/b;
 	}
 	
 }

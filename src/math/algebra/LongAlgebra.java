@@ -20,11 +20,6 @@ public class LongAlgebra implements LatticeAlgebra<Long> {
 	}
 
 	@Override
-	public Long substract(Long a, Long b) {
-		return a-b;
-	}
-
-	@Override
 	public Long multiply(Long a, Long b) {
 		return a*b;
 	}

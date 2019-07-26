@@ -41,11 +41,6 @@ public class ListAlgebra<K> implements FieldAlgebra<List<K>> {
 	}
 
 	@Override
-	public List<K> substract(List<K> a, List<K> b) {
-		return add(a, multiply(b, -1));
-	}
-
-	@Override
 	public List<K> multiply(List<K> a, List<K> b) {
 		List<K> list = new ArrayList<>();
 		for (int i=0; i<a.size(); i++)
@@ -67,11 +62,6 @@ public class ListAlgebra<K> implements FieldAlgebra<List<K>> {
 		List<K> list = new ArrayList<>();
 		for (K item : k) list.add(algebra.inverse(item));
 		return list;
-	}
-
-	@Override
-	public List<K> divide(List<K> a, List<K> b) {
-		return multiply(a, inverse(b));
 	}
 
 }

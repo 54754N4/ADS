@@ -49,12 +49,19 @@ public class CollectionAlgebra<K> implements FieldAlgebra<Collection<K>> {
 
 	@Override
 	public Collection<K> multiply(Collection<K> k, double lambda) {
+		boolean negative = lambda < 0;
 		List<K> list = new ArrayList<>();
 		int count = (int) lambda;
-		while (count-->0) list.addAll(k);
+		while (count-->0)
+			for (K item : k)
+				if (negative) list.add(0, item);
+				else list.add(item);
 		count = k.size()*((int)(lambda - (int) lambda)); // elements * percentage
 		Iterator<K> it = k.iterator();
-		while (it.hasNext() && count-->0) list.add(it.next());
+		while (it.hasNext() && count-->0) {
+			if (negative) list.add(0, it.next());
+			else list.add(it.next());
+		}
 		return list;
 	}
 
@@ -65,10 +72,4 @@ public class CollectionAlgebra<K> implements FieldAlgebra<Collection<K>> {
 		Collections.reverse(list);
 		return list;
 	}
-
-	@Override
-	public Collection<K> divide(Collection<K> a, Collection<K> b) {
-		return multiply(a, inverse(b));
-	}
-
 }

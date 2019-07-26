@@ -41,9 +41,4 @@ public class BooleanAlgebra implements FieldAlgebra<Boolean> {
 		return !k;
 	}
 
-	@Override
-	public Boolean divide(Boolean a, Boolean b) {
-		return multiply(a, inverse(b));
-	}
-
 }
