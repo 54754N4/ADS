@@ -41,6 +41,7 @@ public class Matrix<K> {
 		setCols(matrix[0].length);
 		model = matrix;
 	}
+	
 
 	//Getters and accessors
 	public int getRows() {
@@ -186,14 +187,14 @@ public class Matrix<K> {
 		return minor;	
 	}
 	
+	@SuppressWarnings("unchecked")	// we explicitly put K elements so we know the cast is valid
 	public Matrix<K> cofactor() {
-		if (!isSquare()) 
-			throw new MatrixNotSquareException();
-		else if (rows == 1) 
-			return (equals(identity(rows, algebra))) ? 
-					identity(rows, algebra) : new Matrix<K>(1,1,algebra); 
+		if (!isSquare()) throw new MatrixNotSquareException();
+		else if (rows == 1) // First recursive stop condition
+			return (equals(identity(rows, algebra))) ?	// it's either identity or null matrix 
+					identity(rows, algebra) : new Matrix<>(rows, cols, algebra); 
 		else if (rows == 2) 
-			return new Matrix<K>((K[][]) new Object[][]{
+			return new Matrix<>((K[][]) new Object[][]{
 				{model[1][1], algebra.opposite(model[1][0])},
 				{algebra.opposite(model[0][1]), model[0][0]},
 			}, algebra);
@@ -208,7 +209,7 @@ public class Matrix<K> {
 		K det = det();
 		if (det.equals(algebra.additiveIdentity())) 
 			throw new MatrixNullDeterminantException();
-		return adjugate().times(algebra.inverse(det()));
+		return adjugate().times(algebra.inverse(det()));	// inverse = 1/det*adjugate
 	}
 	
 	public boolean equals(Matrix<K> matrix) {
