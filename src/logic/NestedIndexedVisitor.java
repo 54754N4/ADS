@@ -8,35 +8,31 @@ import java.util.List;
 import java.util.Random;
 
 @SuppressWarnings("unchecked")
-public class NestedVisitor<K> {	// multidimensional list looper
+public class NestedIndexedVisitor<K> {	// multidimensional list looper
 	private int dimension;
 	private Collection<? extends Collection<?>> collection;
 	
-	public NestedVisitor(int dimension, Collection<? extends Collection<?>> collection) {
+	public NestedIndexedVisitor(int dimension, Collection<? extends Collection<?>> collection) {
 		this.collection = collection;
 		this.dimension = dimension;
 	}
 	
-	public void forEach(NestedIndexedVisitor<K> visitor) {
+	public void forEach(IndexedVisitor<K> visitor) {
 		forEach(new ArrayList<>(), collection, visitor);
 	}
 	
-	private void forEach(
-			List<Integer> coords, 
-			Collection<?> collection, 
-			NestedIndexedVisitor<K> visitor
-	) {
-		int i = 0;
-		if (isLast(coords)) { // visit lowest dimension elements 
+	private void forEach(List<Integer> coords, Collection<?> collection, IndexedVisitor<K> visitor) {
+		int i = 0; // count iterated elements at each dimension
+		if (isLast(coords)) { // reached lowest dimension then visit elements 
 			Iterator<K> items = (Iterator<K>) collection.iterator();
 			while (items.hasNext()) 
 				visitor.visit(addCoord(i++, coords).toArray(new Integer[0]), items.next());
 		} else { // otherwise loop into lower dimension
 			Iterator<Collection<? extends Collection<?>>> iterator = 
 					(Iterator<Collection<? extends Collection<?>>>) collection.iterator();
-			coords = addCoord(0, coords);
+			coords = addCoord(0, coords); // add coord for current dimension
 			while (iterator.hasNext()) 
-				forEach(setLastCoord(i++, coords), iterator.next(), visitor);
+				forEach(setLastCoord(i++, coords), iterator.next(), visitor); // recurse into oblivion ~
 		}
 	}	
 	
@@ -83,9 +79,9 @@ public class NestedVisitor<K> {	// multidimensional list looper
 	public static void main(String[] args) {
 		int dimension = 10;
 		List<List<List<List<List<List<List<List<List<List<Integer>>>>>>>>>> list = 
-				(List<List<List<List<List<List<List<List<List<List<Integer>>>>>>>>>>) NestedVisitor.randomNestedArray(dimension);
+				(List<List<List<List<List<List<List<List<List<List<Integer>>>>>>>>>>) NestedIndexedVisitor.randomNestedArray(dimension);
 		System.out.println(list);
-		NestedVisitor<Integer> looper = new NestedVisitor<>(dimension, list);
+		NestedIndexedVisitor<Integer> looper = new NestedIndexedVisitor<>(dimension, list);
 		looper.forEach((coords, elem) -> {
 			String niceString = 
 					String.format("(%s)->%s", print(Arrays.asList(coords)), elem.toString());
@@ -95,11 +91,6 @@ public class NestedVisitor<K> {	// multidimensional list looper
 }
 
 @FunctionalInterface
-interface NestedCollectionVisitor<K> {
-	void visit(K elem);
-}
-
-@FunctionalInterface
-interface NestedIndexedVisitor<K> {
+interface IndexedVisitor<K> {
 	void visit(Integer[] coords, K elem);
 }
