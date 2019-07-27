@@ -59,7 +59,7 @@ public class Matrix<K> {
 		cols = n;
 	}
 	
-	public K[][] getMatrix() {
+	public K[][] getModel() {
 		return model;
 	}
 
@@ -169,18 +169,16 @@ public class Matrix<K> {
 		}
 		K determinant = algebra.additiveIdentity();
 		for (int i=0; i<rows; i++) 
-			/* we'll use the first column as pivot, and the following formula : det(A) = Σ(σ*pivot*det(minor))
-			 * with σ the sign deduced by (-1)^i,
-			 * i representing the current pivot,
+			/* we'll use the first column as pivot, and the following formula : det(A) = SIGMA((-1)^i*pivot*det(minor))
+			 * i representing the current pivot index,
 			 * pivot being the i'th coefficient from the first column,
-			 * minor being the minor matrix after removing the pivot cell.
-			 */
+			 * minor being the minor matrix after removing the pivot cell.*/
 			determinant = algebra.add(determinant, algebra.multiply(algebra.multiply(model[i][0], Math.pow(-1, i)), minor(i, 0).det()));
 		return determinant;
 	}
 	
 	private Matrix<K> minor(int row, int column) {
-		Matrix<K> minor = new Matrix<K>(rows-1, cols-1, algebra);	//because we're deleting 1 row + 1 column
+		Matrix<K> minor = new Matrix<>(rows-1, cols-1, algebra);	//because we're deleting 1 row + 1 column
 		for (int i=0; i<getRows(); i++)
 			for (int j=0; j<getCols(); j++)
 				if (!(i==row || j==column))
@@ -188,7 +186,6 @@ public class Matrix<K> {
 		return minor;	
 	}
 	
-	@SuppressWarnings("unchecked")
 	public Matrix<K> cofactor() {
 		if (!isSquare()) 
 			throw new MatrixNotSquareException();
@@ -236,11 +233,20 @@ public class Matrix<K> {
 	}
 	
 	public static <T> Matrix<T> of(int row, int col, FieldAlgebra<T> algebra) {
-		return new Matrix<T>(row, col, algebra);
+		return new Matrix<>(row, col, algebra);
 	}
 	
 	public static <T> Matrix<T> of(int degree, FieldAlgebra<T> algebra) {
 		return of(degree, degree, algebra);
+	}
+	
+	public static <T> Matrix<T> of(int row, int col, FieldAlgebra<T> algebra, T element) {
+		Matrix<T> matrix = new Matrix<>(row, col, algebra);
+		return matrix.forEachApplySelf((e) -> element);
+	}
+	
+	public static <T> Matrix<T> of(int degree, FieldAlgebra<T> algebra, T element) {
+		return of(degree, degree, algebra, element);
 	}
 	
 	//Representation
@@ -300,7 +306,7 @@ public class Matrix<K> {
 	
 	// Test + Debug matrices
 	public static Matrix<Double> getDoubles() {
-		return new Matrix<Double>(
+		return new Matrix<>(
 			new Double[][] {
 				{ 1d,2d,3d },
 				{ 4d,5d,6d },
@@ -309,7 +315,7 @@ public class Matrix<K> {
 	}
 	
 	public static Matrix<Complex> getComplex() {
-		return new Matrix<Complex>(
+		return new Matrix<>(
 			new Complex[][] {
 				{ new Complex(1,1), new Complex(2,2), new Complex(3,3) },
 				{ new Complex(4,4), new Complex(5,5), new Complex(6,6) },

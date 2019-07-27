@@ -19,4 +19,5 @@ public class Product extends BinaryOperator {
 	public String toString() {
 		return toString("*");
 	}
+	
 }
