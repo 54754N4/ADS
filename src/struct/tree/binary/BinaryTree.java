@@ -5,49 +5,75 @@ package struct.tree.binary;
 
 import struct.contract.BinaryTreeContract;
 
-public class BinaryTree<K extends Comparable<K>, V> implements BinaryTreeContract<K, V> {
+public class BinaryTree<K extends Comparable<K>, V> implements BinaryTreeContract<K, V, Node<K,V>> {
 	private Node<K, V> root;
 	
-	@Override
-	public boolean isLeaf() {
-		// TODO Auto-generated method stub
-		return false;
+	public static void main(String[] args) {
+		Node<Integer, String>  node3 = new Node<>(4, "fourth"),
+			node1 = new Node<>(2, "second"), 
+			node2 = new Node<>(3, "third", node3, null),
+			root = new Node<>(1, "first", node1, node2);
+		BinaryTree<Integer, String> tree = new BinaryTree<>(root);
+		System.out.println(tree.size());
+		System.out.println(tree.height());
+		/*			1
+		 * 		2		3
+		 * 					4
+		 */
 	}
 
-	@Override
-	public int size() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public int height() {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-	@Override
-	public V search(K key) {
-		// TODO Auto-generated method stub
-		return null;
+	public BinaryTree(Node<K, V> root) {
+		this.root = root;
 	}
 	
 	@Override
-	public K search(V value) {
-		// TODO Auto-generated method stub
-		return null;
+	public Node<K, V> getLeft() {
+		return root.getLeft();
+	}
+
+	@Override
+	public Node<K, V> getRight() {
+		return root.getRight();
+	}
+
+	@Override
+	public K getKey() {
+		return root.getKey();
+	}
+
+	@Override
+	public V getValue() {
+		return root.getValue();
 	}
 
 	@Override
 	public void insert(K key, V value) {
-		// TODO Auto-generated method stub
-		
+		root.insert(key, value);
 	}
 
 	@Override
 	public boolean delete(K key) {
-		// TODO Auto-generated method stub
-		return false;
+		return root.delete(key);
 	}
 
+	@Override
+	public Node<K, V> setLeft(Node<K, V> node) {
+		return root.setLeft(node);
+	}
+
+	@Override
+	public Node<K, V> setRight(Node<K, V> node) {
+		return root.setRight(node);
+	}
+
+	@Override
+	public Node<K, V> setValue(V value) {
+		return root.setValue(value);
+	}
+
+	@Override
+	public Node<K, V> createNode(K key, V value) {
+		return root.createNode(key, value);
+	}
+	
 }
