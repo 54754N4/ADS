@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public abstract class Util {
+public abstract class Comparables {
 
 	public static <K extends Comparable<K>> K max(List<K> values) {
 		K max = values.get(0);
