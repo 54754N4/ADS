@@ -9,23 +9,24 @@ public class BinarySearchTree<K extends Comparable<K>, V> implements BinarySearc
 	private Node<K, V> root;
 	
 	public static void main(String[] args) {
-		Integer[] ints = {1,2,3,4,5,6};
-		String[] strs = {"b","c","b","e","b","g"};
-		Node<Integer, String> root = new Node<>(0, "a");
-		for (int i=0; i<ints.length; i++) root.insert(ints[i], strs[i]); // creates degenerate trees (~ linked lists)
+		Integer[] ints = {2,3,4,6,7,8};
+		String[] strs = {"b","c","d","e","f","g"};
+		Node<Integer, String> root = new Node<>(5, "a");
+		for (int i=0; i<ints.length; i++) root.insert(ints[i], strs[i]);	// if u add keys incrementally it will create degenerate trees !
 		BinarySearchTree<Integer, String> tree = new BinarySearchTree<>(root);
-		System.out.println("size =\t "+tree.size());
+		System.out.println("size =\t "+tree.size());		// test tree methods
 		System.out.println("height = "+tree.height());
-		System.out.println("key[4] = "+tree.search(4));
-		System.out.println("vals[b]= "+tree.search("b"));
-		/*	0,a
-		 * 		1,b
-		 * 			2,c
-		 * 				3,b
-		 * 					4,e
-		 * 						5,b
-		 * 						 	6,g
-		 */
+		System.out.println("key[4] = "+tree.search(4));		// test key search
+		System.out.println("vals[b]= "+tree.search("b"));	// test value search
+		System.out.println(tree);
+		Node<Integer, String> node = (Node<Integer, String>) tree.findLeftwiseMinimum();	//test min 
+		// test parents
+		System.out.println(node);
+		System.out.println(node = node.getParent());
+		// test delete
+		tree.delete(8);
+		System.out.println("size =\t "+tree.size());
+		System.out.println(tree);
 	}
 
 	public BinarySearchTree(Node<K, V> root) {
@@ -51,7 +52,23 @@ public class BinarySearchTree<K extends Comparable<K>, V> implements BinarySearc
 	public Node<K, V> getRight() {
 		return root.getRight();
 	}
+	
+	@Override
+	public Node<K, V> getParent() {
+		return root.getParent();
+	}
 
+	@Override
+	public Node<K, V> setParent(BinarySearchTreeContract<K, V> node) {
+		root = (Node<K, V>) node;
+		return root.setParent(node);
+	}
+
+	@Override
+	public Node<K, V> setKey(K key) {
+		return root.setKey(key);
+	}
+	
 	@Override
 	public Node<K, V> setValue(V value) {
 		return root.setValue(value);
@@ -78,12 +95,13 @@ public class BinarySearchTree<K extends Comparable<K>, V> implements BinarySearc
 	}
 
 	@Override
-	public boolean delete(K key) {
-		return root.delete(key);
+	public void delete(K key) {
+		root.delete(key);
 	}
 	
 	@Override
 	public String toString() {
-		return root.toString();
+		return root.simpleRepresentation();
 	}
+
 }
