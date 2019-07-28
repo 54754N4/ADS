@@ -3,9 +3,9 @@
  */
 package struct.tree.binary;
 
-import struct.contract.BinaryTreeContract;
+import struct.contract.BinarySearchTreeContract;
 
-public class BinaryTree<K extends Comparable<K>, V> implements BinaryTreeContract<K, V> {
+public class BinarySearchTree<K extends Comparable<K>, V> implements BinarySearchTreeContract<K, V> {
 	private Node<K, V> root;
 	
 	public static void main(String[] args) {
@@ -13,18 +13,22 @@ public class BinaryTree<K extends Comparable<K>, V> implements BinaryTreeContrac
 		String[] strs = {"b","c","b","e","b","g"};
 		Node<Integer, String> root = new Node<>(0, "a");
 		for (int i=0; i<ints.length; i++) root.insert(ints[i], strs[i]); // creates degenerate trees (~ linked lists)
-		BinaryTree<Integer, String> tree = new BinaryTree<>(root);
-		System.out.println(tree.size());
-		System.out.println(tree.height());
-		System.out.println(tree.search(4));
-		System.out.println(tree.search("b"));
-		/*			1
-		 * 		2		3
-		 * 					4
+		BinarySearchTree<Integer, String> tree = new BinarySearchTree<>(root);
+		System.out.println("size =\t "+tree.size());
+		System.out.println("height = "+tree.height());
+		System.out.println("key[4] = "+tree.search(4));
+		System.out.println("vals[b]= "+tree.search("b"));
+		/*	0,a
+		 * 		1,b
+		 * 			2,c
+		 * 				3,b
+		 * 					4,e
+		 * 						5,b
+		 * 						 	6,g
 		 */
 	}
 
-	public BinaryTree(Node<K, V> root) {
+	public BinarySearchTree(Node<K, V> root) {
 		this.root = root;
 	}
 	
@@ -59,12 +63,12 @@ public class BinaryTree<K extends Comparable<K>, V> implements BinaryTreeContrac
 	}
 	
 	@Override
-	public Node<K, V> setLeft(BinaryTreeContract<K, V> node) {
+	public Node<K, V> setLeft(BinarySearchTreeContract<K, V> node) {
 		return root.setLeft(node);
 	}
 
 	@Override
-	public Node<K, V> setRight(BinaryTreeContract<K, V> node) {
+	public Node<K, V> setRight(BinarySearchTreeContract<K, V> node) {
 		return root.setRight(node);
 	}
 	

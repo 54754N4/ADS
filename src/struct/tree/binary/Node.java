@@ -1,8 +1,8 @@
 package struct.tree.binary;
 
-import struct.contract.BinaryTreeContract;
+import struct.contract.BinarySearchTreeContract;
 
-class Node<K extends Comparable<K>, V> implements BinaryTreeContract<K, V> {
+class Node<K extends Comparable<K>, V> implements BinarySearchTreeContract<K, V> {
 	private K key;
 	private V value;
 	private Node<K, V> left, right;
@@ -45,13 +45,13 @@ class Node<K extends Comparable<K>, V> implements BinaryTreeContract<K, V> {
 	}
 	
 	@Override
-	public Node<K, V> setLeft(BinaryTreeContract<K, V> node) {
+	public Node<K, V> setLeft(BinarySearchTreeContract<K, V> node) {
 		this.left = (Node<K, V>) node;
 		return this;
 	}
 	
 	@Override
-	public Node<K, V> setRight(BinaryTreeContract<K, V> node) {
+	public Node<K, V> setRight(BinarySearchTreeContract<K, V> node) {
 		this.right = (Node<K, V>) node;
 		return this;
 	}
