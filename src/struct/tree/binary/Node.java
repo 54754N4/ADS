@@ -2,7 +2,7 @@ package struct.tree.binary;
 
 import struct.contract.BinaryTreeContract;
 
-class Node<K extends Comparable<K>, V> implements BinaryTreeContract<K, V, Node<K, V>> {
+class Node<K extends Comparable<K>, V> implements BinaryTreeContract<K, V> {
 	private K key;
 	private V value;
 	private Node<K, V> left, right;
@@ -19,13 +19,13 @@ class Node<K extends Comparable<K>, V> implements BinaryTreeContract<K, V, Node<
 	}
 	
 	@Override
-	public K getKey() {
-		return key;
-	}
-
-	@Override
 	public V getValue() {
 		return value;
+	}
+	
+	@Override
+	public K getKey() {
+		return key;
 	}
 	
 	@Override
@@ -45,14 +45,14 @@ class Node<K extends Comparable<K>, V> implements BinaryTreeContract<K, V, Node<
 	}
 	
 	@Override
-	public Node<K, V> setLeft(Node<K, V> node) {
-		this.left = node;
+	public Node<K, V> setLeft(BinaryTreeContract<K, V> node) {
+		this.left = (Node<K, V>) node;
 		return this;
 	}
 	
 	@Override
-	public Node<K, V> setRight(Node<K, V> node) {
-		this.right = node;
+	public Node<K, V> setRight(BinaryTreeContract<K, V> node) {
+		this.right = (Node<K, V>) node;
 		return this;
 	}
 	
@@ -66,4 +66,8 @@ class Node<K extends Comparable<K>, V> implements BinaryTreeContract<K, V, Node<
 		return false;
 	}
 	
+	@Override
+	public String toString() {
+		return String.format("(%s -> %s)", getKey(), value);
+	}
 }
