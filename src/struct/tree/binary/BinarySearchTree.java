@@ -3,16 +3,25 @@
  */
 package struct.tree.binary;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import struct.contract.BinarySearchTreeContract;
 
 public class BinarySearchTree<K extends Comparable<K>, V> implements BinarySearchTreeContract<K, V> {
 	private Node<K, V> root;
 	
 	public static void main(String[] args) {
-		Integer[] ints = {2,3,4,6,7,8};
-		String[] strs = {"b","c","d","e","f","g"};
+		List<Integer> ints = new ArrayList<>(Arrays.asList(2,3,4,6,7,8));
+		List<String> strs = new ArrayList<>(Arrays.asList("b","c","d","e","f","g"));
+		Collections.shuffle(ints);
+		Collections.shuffle(strs);
 		Node<Integer, String> root = new Node<>(5, "a");
-		for (int i=0; i<ints.length; i++) root.insert(ints[i], strs[i]);	// if u add keys incrementally it will create degenerate trees !
+		// if u add sorted keys incrementally it will create degenerate trees !
+		for (int i=0; i<ints.size(); i++) 
+			root.insert(ints.get(i), strs.get(i));	
 		BinarySearchTree<Integer, String> tree = new BinarySearchTree<>(root);
 		System.out.println("size =\t "+tree.size());		// test tree methods
 		System.out.println("height = "+tree.height());
@@ -24,9 +33,9 @@ public class BinarySearchTree<K extends Comparable<K>, V> implements BinarySearc
 		System.out.println(node);
 		System.out.println(node = node.getParent());
 		// test delete
-		tree.delete(8);
-		System.out.println("size =\t "+tree.size());
-		System.out.println(tree);
+//		tree.delete(8);
+//		System.out.println("size =\t "+tree.size());
+//		System.out.println(tree);
 	}
 
 	public BinarySearchTree(Node<K, V> root) {
@@ -94,11 +103,11 @@ public class BinarySearchTree<K extends Comparable<K>, V> implements BinarySearc
 		root.insert(key, value);
 	}
 
-	@Override
-	public void delete(K key) {
-		root.delete(key);
-	}
-	
+//	@Override
+//	public void delete(K key) {
+//		root.delete(key);
+//	}
+//	
 	@Override
 	public String toString() {
 		return root.simpleRepresentation();
