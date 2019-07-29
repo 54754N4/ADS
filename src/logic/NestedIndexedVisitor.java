@@ -7,10 +7,22 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
-@SuppressWarnings("unchecked")
 public class NestedIndexedVisitor<K> {	// multidimensional list looper
 	private int dimension;
 	private Collection<? extends Collection<?>> collection;
+	
+	public static void main(String[] args) {
+		int dimension = 10;
+		List<List<List<List<List<List<List<List<List<List<Integer>>>>>>>>>> list = 
+			(List<List<List<List<List<List<List<List<List<List<Integer>>>>>>>>>>) NestedIndexedVisitor.randomNestedArray(dimension);
+		System.out.println(list);
+		NestedIndexedVisitor<Integer> looper = new NestedIndexedVisitor<>(dimension, list);
+		looper.forEach((coords, elem) -> {
+			String niceString = 
+					String.format("(%s)->%s", print(Arrays.asList(coords)), elem.toString());
+			System.out.println(niceString);
+		});
+	}
 	
 	public NestedIndexedVisitor(int dimension, Collection<? extends Collection<?>> collection) {
 		this.collection = collection;
@@ -20,7 +32,7 @@ public class NestedIndexedVisitor<K> {	// multidimensional list looper
 	public void forEach(IndexedVisitor<K> visitor) {
 		forEach(new ArrayList<>(), collection, visitor);
 	}
-	
+
 	private void forEach(List<Integer> coords, Collection<?> collection, IndexedVisitor<K> visitor) {
 		int i = 0; // count iterated elements at each dimension
 		if (isLast(coords)) { // reached lowest dimension then visit elements 
@@ -74,19 +86,6 @@ public class NestedIndexedVisitor<K> {	// multidimensional list looper
 		while (stop-->0) random.add(randomNestedArray(dimension-1));
 		list.addAll(random);
 		return list;
-	}
-
-	public static void main(String[] args) {
-		int dimension = 10;
-		List<List<List<List<List<List<List<List<List<List<Integer>>>>>>>>>> list = 
-				(List<List<List<List<List<List<List<List<List<List<Integer>>>>>>>>>>) NestedIndexedVisitor.randomNestedArray(dimension);
-		System.out.println(list);
-		NestedIndexedVisitor<Integer> looper = new NestedIndexedVisitor<>(dimension, list);
-		looper.forEach((coords, elem) -> {
-			String niceString = 
-					String.format("(%s)->%s", print(Arrays.asList(coords)), elem.toString());
-			System.out.println(niceString);
-		});
 	}
 }
 
