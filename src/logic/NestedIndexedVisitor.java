@@ -12,16 +12,27 @@ public class NestedIndexedVisitor<K> {	// multidimensional list looper
 	private Collection<? extends Collection<?>> collection;
 	
 	public static void main(String[] args) {
-		int dimension = 10;
-		List<List<List<List<List<List<List<List<List<List<Integer>>>>>>>>>> list = 
-			(List<List<List<List<List<List<List<List<List<List<Integer>>>>>>>>>>) NestedIndexedVisitor.randomNestedArray(dimension);
+		int dimension = 3;
+		List<List<List<Integer>>> list = 
+			(List<List<List<Integer>>> ) NestedIndexedVisitor.randomNestedArray(dimension);
 		System.out.println(list);
 		NestedIndexedVisitor<Integer> looper = new NestedIndexedVisitor<>(dimension, list);
-		looper.forEach((coords, elem) -> {
-			String niceString = 
-					String.format("(%s)->%s", print(Arrays.asList(coords)), elem.toString());
-			System.out.println(niceString);
-		});
+		looper.forEach( (coords, elem) -> 
+			System.out.println(
+					String.format(
+							"(%s)->%s", 
+							print(Arrays.asList(coords)), 
+							elem.toString())));
+//		int dimension = 10;
+//		List<List<List<List<List<List<List<List<List<List<Integer>>>>>>>>>> list = 
+//			(List<List<List<List<List<List<List<List<List<List<Integer>>>>>>>>>>) NestedIndexedVisitor.randomNestedArray(dimension);
+//		System.out.println(list);
+//		NestedIndexedVisitor<Integer> looper = new NestedIndexedVisitor<>(dimension, list);
+//		looper.forEach((coords, elem) -> {
+//			String niceString = 
+//					String.format("(%s)->%s", print(Arrays.asList(coords)), elem.toString());
+//			System.out.println(niceString);
+//		});
 	}
 	
 	public NestedIndexedVisitor(int dimension, Collection<? extends Collection<?>> collection) {
