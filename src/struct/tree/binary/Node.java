@@ -2,7 +2,7 @@ package struct.tree.binary;
 
 import struct.contract.BinarySearchTreeContract;
 
-class Node<K extends Comparable<K>, V> implements BinarySearchTreeContract<K, V> {
+public class Node<K extends Comparable<K>, V> implements BinarySearchTreeContract<K, V> {
 	private K key;
 	private V value;
 	private Node<K, V> left, right, parent;
@@ -82,6 +82,7 @@ class Node<K extends Comparable<K>, V> implements BinarySearchTreeContract<K, V>
 	
 	@Override
 	public String toString() {
-		return String.format("(%s -> %s)", getKey(), value);
+		return simpleRepresentation();
+//		return String.format("(%s -> %s)", getKey(), value);
 	}
 }

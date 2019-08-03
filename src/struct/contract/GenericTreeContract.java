@@ -5,8 +5,9 @@ import java.util.List;
 
 import utils.Comparables;
 
-public interface GenericTreeContract<K, V> extends TreeContract {
+public interface GenericTreeContract<K, V> extends TreeContract<K, V> {
 	GenericTreeContract<K, V> add(GenericTreeContract<K, V> child);
+	GenericTreeContract<K, V> add(K key, V value);
 	List<? extends GenericTreeContract<K, V>> getChildren();
 	
 	@Override
