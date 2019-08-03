@@ -76,6 +76,7 @@ public interface BinarySearchTreeContract<K extends Comparable<K>, V> extends Bi
 		return minNode;
 	}
 	
+	@Override
 	default String simpleRepresentation() {
 		if (isLeaf()) return "("+getValue()+")";
 		String left, value, right;
