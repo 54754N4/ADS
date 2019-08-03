@@ -1,8 +1,19 @@
 package struct.contract;
 
-public interface BinaryTreeContract<K, V> extends TreeContract {
+import java.util.ArrayList;
+import java.util.List;
+
+public interface BinaryTreeContract<K, V> extends TreeContract<K, V> {
 	BinaryTreeContract<K,V> getLeft();
 	BinaryTreeContract<K,V> getRight();
+	
+	@Override
+	default List<BinaryTreeContract<K, V>> getChildren() {
+		List<BinaryTreeContract<K, V>> children = new ArrayList<>();
+		if (getLeft() != null) children.add(getLeft());
+		if (getRight() != null) children.add(getRight());
+		return children;
+	}
 	
 	@Override
 	default boolean isLeaf() {
