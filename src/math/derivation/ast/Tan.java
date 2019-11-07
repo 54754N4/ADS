@@ -1,9 +1,12 @@
 package math.derivation.ast;
 
+import math.derivation.builder.Visitor;
+import math.derivation.interpreter.Type;
+import struct.tree.binary.Node;
 public class Tan extends UnaryOperator {
 
 	public Tan(Expression expression) {
-		super(expression);
+		super(Type.TAN, "TAN", expression);
 	}
 
 	@Override

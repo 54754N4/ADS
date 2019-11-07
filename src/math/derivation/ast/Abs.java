@@ -1,9 +1,13 @@
 package math.derivation.ast;
 
+import math.derivation.builder.Visitor;
+import math.derivation.interpreter.Type;
+import struct.tree.binary.Node;
+
 public class Abs extends UnaryOperator {
 
 	public Abs(Expression expression) {
-		super(expression);
+		super(Type.BAR, "ABS", expression);
 	}
 
 	@Override

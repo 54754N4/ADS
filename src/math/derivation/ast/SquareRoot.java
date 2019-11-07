@@ -1,9 +1,12 @@
 package math.derivation.ast;
 
+import math.derivation.builder.Visitor;
+import math.derivation.interpreter.Type;
+import struct.tree.binary.Node;
 public class SquareRoot extends UnaryOperator {
 
 	public SquareRoot(Expression expression) {
-		super(expression);
+		super(Type.SQRT, "SQRT", expression);
 	}
 
 	@Override
@@ -19,5 +22,4 @@ public class SquareRoot extends UnaryOperator {
 	public String toString() {
 		return "sqrt("+expression+")";
 	}
-
 }

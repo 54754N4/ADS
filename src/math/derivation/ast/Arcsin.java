@@ -1,9 +1,12 @@
 package math.derivation.ast;
 
+import math.derivation.builder.Visitor;
+import math.derivation.interpreter.Type;
+import struct.tree.binary.Node;
 public class Arcsin extends UnaryOperator {
 
 	public Arcsin(Expression expression) {
-		super(expression);
+		super(Type.ASIN, "ASIN", expression);
 	}
 
 	@Override
@@ -19,5 +22,4 @@ public class Arcsin extends UnaryOperator {
 	public String toString() {
 		return "asin("+expression+")";
 	}
-
 }

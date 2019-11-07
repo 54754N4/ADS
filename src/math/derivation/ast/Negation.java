@@ -1,9 +1,12 @@
 package math.derivation.ast;
 
+import math.derivation.builder.Visitor;
+import math.derivation.interpreter.Type;
+import struct.tree.binary.Node;
 public class Negation extends UnaryOperator {
 
 	public Negation(Expression expression) {
-		super(expression);
+		super(Type.MINUS, "-", expression);
 	}
 
 	@Override
@@ -19,4 +22,5 @@ public class Negation extends UnaryOperator {
 	public String toString() {
 		return "-"+expression;
 	}
+
 }

@@ -1,9 +1,12 @@
 package math.derivation.ast;
 
+import math.derivation.builder.Visitor;
+import math.derivation.interpreter.Type;
+import struct.tree.binary.Node;
 public class Sin extends UnaryOperator {
 
 	public Sin(Expression expression) {
-		super(expression);
+		super(Type.SIN, "SIN", expression);
 	}
 	
 	@Override
@@ -23,5 +26,4 @@ public class Sin extends UnaryOperator {
 	public String toString() {
 		return "sin("+expression.toString()+")";
 	}
-
 }

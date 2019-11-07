@@ -1,9 +1,12 @@
 package math.derivation.ast;
 
+import math.derivation.builder.Visitor;
+import math.derivation.interpreter.Type;
+import struct.tree.binary.Node;
 public class Exp extends UnaryOperator {
 
 	public Exp(Expression expression) {
-		super(expression);
+		super(Type.E, "EXP", expression);
 	}
 
 	@Override

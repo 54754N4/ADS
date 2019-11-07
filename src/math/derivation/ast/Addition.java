@@ -1,9 +1,13 @@
 package math.derivation.ast;
 
+import math.derivation.builder.Visitor;
+import math.derivation.interpreter.Type;
+import struct.tree.binary.Node;
+
 public class Addition extends BinaryOperator {
 
 	public Addition(Expression left, Expression right) {
-		super(left, right);
+		super(Type.PLUS, "+", left, right);
 	}
 
 	@Override
@@ -17,6 +21,7 @@ public class Addition extends BinaryOperator {
 	}
 
 	public String toString() {
-		return toString("+");
+		return toString(Constant.ZERO);
 	}
+	
 }

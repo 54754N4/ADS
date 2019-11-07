@@ -1,9 +1,12 @@
 package math.derivation.ast;
 
+import math.derivation.builder.Visitor;
+import math.derivation.interpreter.Type;
+import struct.tree.binary.Node;
 public class Arctan extends UnaryOperator {
 
 	public Arctan(Expression expression) {
-		super(expression);
+		super(Type.ATAN, "ATAN", expression);
 	}
 
 	@Override

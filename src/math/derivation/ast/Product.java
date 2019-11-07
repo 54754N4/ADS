@@ -1,9 +1,12 @@
 package math.derivation.ast;
 
+import math.derivation.builder.Visitor;
+import math.derivation.interpreter.Type;
+import struct.tree.binary.Node;
 public class Product extends BinaryOperator {
 
 	public Product(Expression a, Expression b) {
-		super(a,b);
+		super(Type.TIMES, "*", a,b);
 	}
 
 	@Override
@@ -17,7 +20,7 @@ public class Product extends BinaryOperator {
 	}
 
 	public String toString() {
-		return toString("*");
+		return toString(Constant.ONE, Constant.ZERO);
 	}
 	
 }

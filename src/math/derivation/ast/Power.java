@@ -1,9 +1,12 @@
 package math.derivation.ast;
 
-public class Power extends BinaryOperator implements Expression {
+import math.derivation.builder.Visitor;
+import math.derivation.interpreter.Type;
+import struct.tree.binary.Node;
+public class Power extends BinaryOperator {
 
 	public Power(Expression left, Expression right) {
-		super(left, right);
+		super(Type.POWER, "^", left, right);
 	}
 
 	@Override
@@ -18,7 +21,4 @@ public class Power extends BinaryOperator implements Expression {
 				new Addition(new Product(right.derivative(), new Log(left)), new Division(new Product(right, left.derivative()), left)));
 	}
 
-	public String toString() {
-		return toString("^");
-	}
 }

@@ -3,15 +3,15 @@ package math.derivation.ast;
 import math.derivation.builder.Visitor;
 import math.derivation.interpreter.Type;
 import struct.tree.binary.Node;
-public class Log extends UnaryOperator {
+public class Ln extends UnaryOperator {
 
-	public Log(Expression expression) {
-		super(Type.LOG, "LOG", expression);
+	public Ln(Expression expression) {
+		super(Type.LN, "LN", expression);
 	}
 
 	@Override
 	public Double eval(Double x) {
-		return Math.log10(expression.eval(x));
+		return Math.log(expression.eval(x));
 	}
 
 	@Override
@@ -20,7 +20,7 @@ public class Log extends UnaryOperator {
 	}
 
 	public String toString() {
-		return "log("+expression+")";
+		return "ln("+expression+")";
 	}
 
 }
