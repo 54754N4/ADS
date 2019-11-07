@@ -1,0 +1,44 @@
+// https://en.wikibooks.org/wiki/Introduction_to_Programming_Languages/Precedence_and_Associativity
+>> Grammar -------------------------------------------------------------------------------------------
+
+expression: binary_additive
+binary_additive: binary_multiplicative [(PLUS|MINUS) binary_additive]
+binary_multiplicative: binary_exponent [(TIMES|DIVIDE) binary_multiplicative]
+binary_exponent: unary [POWER binary_exponent]
+unary: BAR expression BAR 
+    | [MINUS] atom
+atom: constant
+    | function
+    | LPAREN expression RPAREN
+constant: scalar
+	| variable
+    | PI
+    | E
+scalar: number [DOT number]
+	
+number: [0-9]+
+variable: [a-zA-Z]+[a-zA-Z0-9]*
+function: (ACOS|ASIN|ATAN|COS|SIN|TAN|LOG|LN|SQRT) LPAREN expression RPAREN
+
+>> Tokens --------------------------------------------------------------------------------------------
+
+LPAREN 	(
+RPAREN 	)
+PLUS	+
+MINUS	-
+TIMES	*
+DIVIDE	/	
+POWER	^
+BAR		|
+DOT		.
+PI 		3.14
+e 		2.7
+ACOS	arccos
+ASIN	arcsin
+ATAN	arctan
+COS		cos
+SIN		sin
+TAN		tan
+LOG		log
+LN		ln
+SQRT	sqrt
