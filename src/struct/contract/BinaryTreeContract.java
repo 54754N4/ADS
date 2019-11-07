@@ -3,13 +3,18 @@ package struct.contract;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface BinaryTreeContract<K, V> extends TreeContract<K, V> {
-	BinaryTreeContract<K,V> getLeft();
-	BinaryTreeContract<K,V> getRight();
+public interface BinaryTreeContract<V> extends TreeContract<V> {
+	BinaryTreeContract<V> getLeft();
+	BinaryTreeContract<V> getRight();
+	@Override BinaryTreeContract<V> getParent();
+	BinaryTreeContract<V> setValue(V value);
+	BinaryTreeContract<V> setLeft(BinaryTreeContract<V> node);
+	BinaryTreeContract<V> setRight(BinaryTreeContract<V> node);
+	@Override BinaryTreeContract<V> setParent(TreeContract<V> node);
 	
 	@Override
-	default List<BinaryTreeContract<K, V>> getChildren() {
-		List<BinaryTreeContract<K, V>> children = new ArrayList<>();
+	default List<BinaryTreeContract<V>> getChildren() {
+		List<BinaryTreeContract<V>> children = new ArrayList<>();
 		if (getLeft() != null) children.add(getLeft());
 		if (getRight() != null) children.add(getRight());
 		return children;

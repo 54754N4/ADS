@@ -3,18 +3,17 @@ package struct.contract;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface BinarySearchTreeContract<K extends Comparable<K>, V> extends BinaryTreeContract<K, V> {
-	BinarySearchTreeContract<K,V> createNode(K key, V value);
+public interface BinarySearchTreeContract<K extends Comparable<K>, V> extends BinaryTreeContract<V> {
 	K getKey();
-	V getValue();
+	BinarySearchTreeContract<K,V> createNode(K key, V value);
 	BinarySearchTreeContract<K,V> getLeft();
 	BinarySearchTreeContract<K,V> getRight();
 	BinarySearchTreeContract<K,V> getParent();
 	BinarySearchTreeContract<K,V> setKey(K key);
 	BinarySearchTreeContract<K,V> setValue(V value);
-	BinarySearchTreeContract<K,V> setLeft(BinarySearchTreeContract<K,V> node);
-	BinarySearchTreeContract<K,V> setRight(BinarySearchTreeContract<K,V> node);
-	BinarySearchTreeContract<K,V> setParent(BinarySearchTreeContract<K,V> node);
+	@Override BinarySearchTreeContract<K,V> setLeft(BinaryTreeContract<V> node);
+	@Override BinarySearchTreeContract<K,V> setRight(BinaryTreeContract<V> node);
+	@Override BinarySearchTreeContract<K,V> setParent(TreeContract<V> node);
 	
 	default BinarySearchTreeContract<K,V> search(K key) {
 		if (getKey().compareTo(key) == 0) 
