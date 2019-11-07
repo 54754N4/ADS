@@ -7,6 +7,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
 
+@SuppressWarnings("unchecked")
 public class NestedIndexedVisitor<K> {	// multidimensional list looper
 	private int dimension;
 	private Collection<? extends Collection<?>> collection;
