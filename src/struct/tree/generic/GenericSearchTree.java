@@ -5,6 +5,7 @@ import java.util.List;
 
 import struct.contract.GenericSearchTreeContract;
 import struct.contract.GenericTreeContract;
+import struct.contract.TreeContract;
 
 public class GenericSearchTree<K, V> implements GenericSearchTreeContract<K, V> {
 	private Node<K, V> root;
@@ -58,5 +59,15 @@ public class GenericSearchTree<K, V> implements GenericSearchTreeContract<K, V> 
 	@Override
 	public String toString() {
 		return root.toString();
+	}
+
+	@Override
+	public TreeContract<K, V> getParent() {
+		return root.getParent(); 	// always null
+	}
+
+	@Override
+	public TreeContract<K, V> setParent(TreeContract<K, V> node) {
+		return root.setParent(node);
 	}
 }
