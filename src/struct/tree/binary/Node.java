@@ -1,88 +1,71 @@
 package struct.tree.binary;
 
-import struct.contract.BinarySearchTreeContract;
+import struct.contract.BinaryTreeContract;
+import struct.contract.TreeContract;
 
-public class Node<K extends Comparable<K>, V> implements BinarySearchTreeContract<K, V> {
-	private K key;
+public class Node<V> implements BinaryTreeContract<V> {
+	private Node<V> parent;
+	private Node<V> left, right;
 	private V value;
-	private Node<K, V> left, right, parent;
 	
-	public Node(K key, V value) {
-		this(key, value, null, null);
-	}
-	
-	public Node(K key, V value, Node<K, V> l, Node<K, V> r) {
-		this.key = key;
+	public Node(V value) {
 		this.value = value;
-		setLeft(l);
-		setRight(r);
 	}
 	
+	public Node(V value, Node<V> left, Node<V> right) {
+		this(value);
+		setLeft(left);
+		setRight(right);
+	}
+
 	@Override
 	public V getValue() {
 		return value;
 	}
-	
+
 	@Override
-	public K getKey() {
-		return key;
-	}
-	
-	@Override
-	public Node<K, V> setKey(K key) {
-		this.key = key;
-		return this;
-	}
-	
-	@Override
-	public Node<K, V> setValue(V value) {
-		this.value = value;
-		return this;
-	}
-	
-	@Override
-	public Node<K, V> getLeft() {
+	public Node<V> getLeft() {
 		return left;
 	}
-	
+
 	@Override
-	public Node<K, V> getRight() {
+	public Node<V> getRight() {
 		return right;
 	}
-	
+
 	@Override
-	public Node<K, V> setLeft(BinarySearchTreeContract<K, V> node) {
-		if (node != null) node.setParent(this);
-		this.left = (Node<K, V>) node;
-		return this;
-	}
-	
-	@Override
-	public Node<K, V> setRight(BinarySearchTreeContract<K, V> node) {
-		if (node != null) node.setParent(this);
-		this.right = (Node<K, V>) node;
-		return this;
-	}
-	
-	@Override
-	public Node<K, V> getParent() {
+	public Node<V> getParent() {
 		return parent;
 	}
 
 	@Override
-	public Node<K, V> setParent(BinarySearchTreeContract<K, V> node) {
-		parent = (Node<K, V>) node;
+	public Node<V> setValue(V value) {
+		this.value = value;
 		return this;
 	}
-	
+
 	@Override
-	public Node<K, V> createNode(K key, V value) {
-		return new Node<>(key, value);
+	public Node<V> setLeft(BinaryTreeContract<V> node) {
+		left = (Node<V>) node;
+		if (node != null) node.setParent(this);
+		return this;
 	}
-	
+
+	@Override
+	public Node<V> setRight(BinaryTreeContract<V> node) {
+		right = (Node<V>) node;
+		if (node != null) node.setParent(this);
+		return this;
+	}
+
+	@Override
+	public Node<V> setParent(TreeContract<V> node) {
+		parent = (Node<V>) node;
+		return this;
+	}
+
 	@Override
 	public String toString() {
-		return simpleRepresentation();
-//		return String.format("(%s -> %s)", getKey(), value);
+		return value.toString();
 	}
 }
