@@ -16,42 +16,44 @@ import struct.contract.TreeContract;
 
 public class TreeView<K, V> extends JFrame {
 	private static final long serialVersionUID = -560765582426517432L;
+	private static final int TEXT_SIZE = 50, LEVEL_HEIGHT = 150, SCROLL_UNITS = 16;
+	public static final Dimension SCREEN = Toolkit.getDefaultToolkit().getScreenSize(); 
 	
-	private static final int SCROLL_UNITS = 16;
-	private static final Dimension SCREEN = Toolkit.getDefaultToolkit().getScreenSize();
 	private JScrollPane scrollPane;
 	private Draw draw;
 	
-	private TreeView(Draw draw, Dimension size, TreeContract<K, V> tree) {
+	private TreeContract<V> tree;
+	
+	private TreeView(Draw draw, Dimension size, TreeContract<V> tree) {
 		this.draw = draw;
-		int x = (int) ((SCREEN.getWidth()-size.getWidth())/2),
-			y = (int) ((SCREEN.getHeight()-size.getHeight())/2),
-			w = (int) size.getWidth(), 
-			h = (int) size.getHeight();
+		this.tree = tree;
+		int w = (int) size.getWidth(), 
+			h = (int) size.getHeight(), 
+			x = (int) (SCREEN.getWidth()-w),
+			y = 0;
+		if (size.getWidth() > SCREEN.getWidth()) 
+			x = (int) (SCREEN.getWidth() - (w = (int) SCREEN.getWidth()/2));
 		setBounds(x, y, w, h);
 		setTitle("Generic Tree View");
-		setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		setSize(size);
-		add(scrollPane = new JScrollPane(new TreePanel(size, tree),
+		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+		add(scrollPane = new JScrollPane(new TreePanel(size),
 				ScrollPaneConstants.VERTICAL_SCROLLBAR_AS_NEEDED,
 				ScrollPaneConstants.HORIZONTAL_SCROLLBAR_AS_NEEDED));
 		scrollPane.getVerticalScrollBar().setUnitIncrement(SCROLL_UNITS);
 		scrollPane.getHorizontalScrollBar().setUnitIncrement(SCROLL_UNITS);
 		setVisible(true);
-	} 
+	}
 	
-	public static <K, V> TreeView<K, V> display(Draw draw, Dimension size, TreeContract<K, V> tree) {
-		return new TreeView<>(draw, size, tree);
+	@Override
+	public Dimension getPreferredSize() {
+		return new Dimension((int) SCREEN.getWidth(), (int) SCREEN.getHeight());
 	}
 	
 	public class TreePanel extends JPanel {
 		private static final long serialVersionUID = -6548858684587265230L;
-		private static final int TEXT_SIZE = 50, LEVEL_HEIGHT = 150;
-		private TreeContract<K, V> tree;
 		private Dimension size;
 		
-		public TreePanel(Dimension size, TreeContract<K, V> tree) {
-			 this.tree = tree;
+		public TreePanel(Dimension size) {
 			 this.size = size;
 		}
 		
@@ -70,20 +72,20 @@ public class TreeView<K, V> extends JFrame {
 				Graphics g, 
 				int levelWidthStart, int levelHeightStart, 
 				int levelWidth, int levelHeight, 
-				TreeContract<K, V> node
+				TreeContract<V> node
 		) {
 			int xNode = levelWidthStart+levelWidth/2,
 				yNode = levelHeightStart+levelHeight/2,
 				xChild, yChild;	// to draw line
-			drawCenteredString(g, String.format(draw.format, node.getKey(), node.getValue()), xNode, yNode);
+			drawCenteredString(g, String.format(draw.format, node.getValue()), xNode, yNode);
 			if (node.isLeaf()) return;		// stop propagating
-			List<? extends TreeContract<K, V>> children = node.getChildren();
+			List<? extends TreeContract<V>> children = node.getChildren();
 			int childWidth = levelWidth/children.size(), childWidthStart, childHeightStart;
 			for (int i=0; i<children.size(); i++) {
 				childWidthStart = levelWidthStart + childWidth*i;	// Subdivide width based on children
 				childHeightStart = levelHeightStart + levelHeight;  // next start height is always gonna be next level
-				xChild = childWidthStart+childWidth/2;
-				yChild = childHeightStart+levelHeight/2;
+				xChild = childWidthStart + childWidth/2;
+				yChild = childHeightStart + levelHeight/2;
 				g.drawLine(xNode, yNode, xChild, yChild);
 				drawNode(g, 
 					childWidthStart,
@@ -101,9 +103,9 @@ public class TreeView<K, V> extends JFrame {
 	}
 	
 	public static enum Draw { 
-		KEYS("%1$s"), VALUES("%2$s"), PAIRS("(%s, %s)"), FORMAT("%s");
+		VALUES("%1$s"), PAIRS("(%s, %s)"), FORMAT("%s");
 		
-		public static final Draw[] immutable = {KEYS, VALUES, PAIRS};
+		public static final Draw[] immutables = { VALUES, PAIRS };
 		public String format;
 		      
 		private Draw(String format) {
@@ -111,11 +113,35 @@ public class TreeView<K, V> extends JFrame {
 		}
 		
 		public Draw setFormat(String format) {	// Only FORMAT is mutable
-			for (Draw type : immutable)			
+			for (Draw type : immutables)			
 				if (equals(type))				// run-time mutability check
 					return this;						
 			this.format = format;
 			return this;
 		}
+	}
+	
+	public static <K, V> TreeView<K, V> display(Draw draw, Dimension size, TreeContract<V> tree) {
+		return new TreeView<>(draw, size, tree);
+	}
+	
+	public static <K, V> TreeView<K, V> display(Draw draw, TreeContract<V> tree) {
+		return display(draw, SCREEN, tree);
+	}
+	
+	public static <K, V> TreeView<K, V> displayValues(Dimension size, TreeContract<V> tree) {
+		return display(Draw.VALUES, size, tree);
+	}
+	
+	public static <K, V> TreeView<K, V> displayFormat(String format, Dimension size, TreeContract<V> tree) {
+		return display(Draw.FORMAT.setFormat(format), size, tree);
+	}
+	
+	public static <K, V> TreeView<K, V> displayValues(TreeContract<V> tree) {
+		return display(Draw.VALUES, tree);
+	}
+	
+	public static <K, V> TreeView<K, V> displayFormat(String format, TreeContract<V> tree) {
+		return display(Draw.FORMAT.setFormat(format), tree);
 	}
 }

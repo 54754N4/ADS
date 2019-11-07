@@ -6,7 +6,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
-import struct.tree.binary.BinarySearchTree;
+import struct.tree.bst.BinarySearchTree;
 import struct.tree.generic.GenericSearchTree;
 import struct.tree.generic.Node;
 
@@ -19,10 +19,10 @@ public class Test {
 	
 	private static void testGeneric() {
 		GenericSearchTree<Integer, String> tree = genericTree();
-		TreeView.display(
-				TreeView.Draw.FORMAT.setFormat("%s: %s"), 
-				new Dimension(1000, 500), 
-				tree);
+		TreeView.displayFormat("%s: %s", tree);
+		GenericSearchTree<Integer, String> tree1 = genericTree();
+		tree1.forEachGenerationAware((g, node) -> System.out.println(g+": "+node));
+		TreeView.display(TreeView.Draw.VALUES, tree1);
 	}
 	
 	private static GenericSearchTree<Integer, String> genericTree() {
@@ -47,7 +47,7 @@ public class Test {
 		List<String> strs = new ArrayList<>(Arrays.asList("b","c","d","e","f","g"));
 		Collections.shuffle(ints);
 		Collections.shuffle(strs);
-		struct.tree.binary.Node<Integer, String> root = new struct.tree.binary.Node<>(5, "a");
+		struct.tree.bst.Node<Integer, String> root = new struct.tree.bst.Node<>(5, "a");
 		// if u add sorted keys incrementally it will create degenerate trees !
 		for (int i=0; i<ints.size(); i++) 
 			root.insert(ints.get(i), strs.get(i));	
